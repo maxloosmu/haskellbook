@@ -401,7 +401,7 @@ partEither2 = foldr go ([], []) where
 list = [Left "foo"]
 list2 = [Left "foo", Right 3, 
   Left "bar", Right 7, Left "baz"]
-test2 = partEither2 list2
+test2 = partEither3 list2
 -- -- Equational Reasoning 
 -- -- based on partEither2's go:
 -- -- but these cannot be tested on ghci
@@ -414,4 +414,10 @@ test2 = partEither2 list2
 -- = (("foo" : []), [])
 -- = (["foo"], [])
 
-
+-- created in about 10 min
+-- y can be x or any other symbol
+-- besides those already in use
+partEither3 :: [Either a b] -> ([a], [b])
+partEither3 = foldr go ([], []) where
+  go (Left x) (bx, by) = ((x : bx), by)
+  go (Right y) (bx, by) = (bx, (y : by))
