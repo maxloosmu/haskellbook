@@ -93,3 +93,83 @@ uncs = csar . negate
 
 
 
+import Control.Monad (forever)
+import System.Exit (exitSuccess)
+import System.IO 
+  (BufferMode(NoBuffering),
+  hSetBuffering,
+  stdout)
+import Data.Char (toLower, isAlphaNum)
+
+palindrome :: IO ()
+palindrome = forever $ do
+  line1 <- getLine
+  case (reduce line1 == 
+    reverse (reduce line1)) of
+    True -> putStrLn "It's a palindrome!"
+    False -> do
+      putStrLn "Nope!"
+      exitSuccess
+reduce xs = map toLower 
+  [ x | x <- xs, isAlphaNum x]
+test = reduce "Madam I'm Adam,"
+
+type Name = String
+type Age = Integer
+data Person = Person Name Age 
+  deriving Show
+data PersonInvalid =
+  NameEmpty
+  | AgeTooLow
+  | PersonInvalidUnknown String
+  deriving (Eq, Show)
+mkPerson :: Name
+  -> Age
+  -> Either PersonInvalid Person
+mkPerson name age
+  | name /= "" && age > 0 =
+    Right $ Person name age
+  | name == "" = Left NameEmpty
+  | not (age > 0) = Left AgeTooLow
+  | otherwise =
+    Left $ PersonInvalidUnknown $
+    "Name was: " ++ show name ++
+    " Age was: " ++ show age
+
+gimmePerson :: IO ()
+gimmePerson = do
+  hSetBuffering stdout NoBuffering
+  putStr "Input your name: "
+  name <- getLine
+  putStr "Input your age: "
+  age <- getLine
+  if age /= ""
+  then check (mkPerson name (read age :: Integer))
+  else putStrLn "An Error occurred: Age Empty"
+
+-- default for my program: 
+-- check :: Show a => Either PersonInvalid a -> IO ()
+check :: Either PersonInvalid Person -> IO ()
+check (Right x) = 
+  putStrLn ("Yay!  Successfully got a person: "
+  ++ show x)
+check (Left x) = 
+  putStrLn ("An Error occurred: " ++ show x)
+
+-- -- this didn't work: 
+-- check person  
+--   | person == Right Person _ = 
+--     putStrLn ("Yay!  Successfully got a person: "
+--     ++ show person)
+--   | person == Left x y = 
+--     if length y > 0
+--     then do 
+--       putStrLn ("An Error occured: ")
+--       putStrLn (show x ++ y)
+--     else do
+--       putStrLn ("An Error occured: ")
+--       putStrLn (show x)
+
+
+
+
