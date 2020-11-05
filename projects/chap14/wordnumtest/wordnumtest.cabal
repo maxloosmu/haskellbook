@@ -1,0 +1,57 @@
+cabal-version: 1.12
+
+name:           wordnumtest
+version:        0.1.0.0
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+category:       Text
+
+library
+  exposed-modules:
+      WordNumber
+  ghc-options: 
+      -Wall -fwarn-tabs
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , QuickCheck
+    , hspec
+  default-language: Haskell2010
+
+executable wordnumtest
+  main-is: Main.hs
+  ghc-options: 
+      -Wall -fwarn-tabs 
+  hs-source-dirs:
+      exe
+  build-depends:
+      base >=4.7 && <5
+    , wordnumtest
+    , containers
+    , QuickCheck
+    , hspec
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: test.hs
+  hs-source-dirs:
+      test
+  ghc-options:
+      -Wall -fno-warn-orphans
+  build-depends:
+      base >=4.7 && <5
+    , wordnumtest
+    , containers
+    , QuickCheck
+    , hspec
+  default-language: Haskell2010
