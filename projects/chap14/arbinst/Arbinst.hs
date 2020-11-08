@@ -79,7 +79,7 @@ maybeGen = do
     (1, return Nothing)]
 -- -- this is duplicate of instance in 
 -- -- Test.QuickCheck.Arbitrary, 
--- -- cannot duplicate:
+-- -- cannot duplicate and use:
 -- instance Arbitrary a =>
 --   Arbitrary (Maybe a) where
 --     arbitrary = frequency [(1, return Nothing),

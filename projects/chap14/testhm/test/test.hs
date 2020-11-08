@@ -1,0 +1,10 @@
+module Main where
+
+import Test.QuickCheck
+
+main :: IO ()
+main = putStrLn "Test suite not yet implemented"
+
+guessing = elements ['a'..'z']
+
+
