@@ -21,28 +21,42 @@ encode n xs = [shift n x | x <- xs]
 decode :: Int -> [Char] -> [Char]
 decode n xs = [shift (negate n) x | x <- xs]
 
-genString :: Gen [Char]
-genString = elements ["a".."z"]
-genNum :: Gen Int
-genNum = oneof [0..100]
-test :: IO ()
-test = sample genNum
+-- genString :: Gen [Char]
+-- genString = elements ["a".."z"]
+
+randomChar :: Gen Char
+randomChar = elements ['a'..'z']
+randomString :: Gen String
+randomString = listOf randomChar
+genNum :: IO Int
+genNum = generate $ elements [0..100]
+test :: IO String
+test = generate randomString
+
+genPos :: Gen Int
+genPos = abs `fmap` (arbitrary :: Gen Int) `suchThat` (> 0)
+genListOfPos :: Gen [Int]
+genListOfPos = listOf genPos
+tryGen :: IO ()
+tryGen = do
+  quickCheck $ forAll genPos $ \x -> x > 0
+  quickCheck $ forAll genListOfPos $ all (> 0)
+
 -- -- wrong because Gen is not data constructor:
 -- pick = go genNum where
 --   go (Gen x) = x
 
--- check :: IO ()
--- check = do
---   x <- sample genNum
---   quickCheck (prop_checkChar x)
+check :: IO ()
+check = do
+  x <- genNum
+  quickCheck (prop_checkChar x)
 
 prop_checkChar :: Int -> Property
 prop_checkChar x = 
-  forAll genString
-    (\c ->     
-      encode x c 
-      -- >>= decode x (encode x c) 
-      == c)
+  forAll randomString
+    (\str ->     
+      decode x (encode x str)
+      == str)
 
 
 

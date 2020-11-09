@@ -9,6 +9,21 @@ license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
 
+library
+  exposed-modules:
+      Testhm
+  ghc-options: 
+      -Wall -fwarn-tabs
+  hs-source-dirs:
+      lib
+  build-depends:
+      base >=4.7 && <5
+    , random
+    -- , containers
+    , QuickCheck
+    , hspec
+  default-language: Haskell2010
+
 executable testhm
   main-is: Main.hs
   hs-source-dirs:
@@ -17,10 +32,11 @@ executable testhm
       -Wall -fwarn-tabs
   build-depends:
       base >=4.7 && <5
-    -- , testhm
-    , random
+    , testhm
+    -- , random
     -- , containers
     , QuickCheck
+    , hspec
   default-language: Haskell2010
 
 test-suite test
@@ -35,4 +51,5 @@ test-suite test
     , testhm
     -- , containers
     , QuickCheck
+    , hspec
   default-language: Haskell2010

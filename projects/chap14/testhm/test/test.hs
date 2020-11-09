@@ -1,10 +1,19 @@
 module Main where
 
 import Test.QuickCheck
+import Test.Hspec
+import Testhm
 
-main :: IO ()
-main = putStrLn "Test suite not yet implemented"
-
+guessing :: Gen Char
 guessing = elements ['a'..'z']
 
+main :: IO ()
+main = hspec $ do
+  describe "fillInCharacter" $ do
+    it "Puzzle ['w','o','w'] [Nothing, Nothing, \
+      \ Nothing] [] [] evaluated gives" $ do
+        fillInCharacter (Puzzle "wow" [Nothing, 
+          Nothing, Nothing] [] []) 'w' `shouldBe`
+          Puzzle "wow" [Just 'w', Nothing, 
+          Just 'w'] "w" []
 
