@@ -49,16 +49,18 @@ randomWord' = gameWords >>= randomWord
 
 data Puzzle =
   Puzzle String [Maybe Char] [Char] [Char]
-  -- deriving Eq
+  deriving (Eq)
+-- don't need to use fmap, map is ok
 instance Show Puzzle where
   show (Puzzle answer discovered guessed wrong) =
     answer ++ " " ++ intersperse ' ' 
-    (fmap renderPuzzleChar discovered)
+    (map renderPuzzleChar discovered)
     ++ " Guessed so far: " ++ guessed 
     ++ " Wrong guesses: " ++ wrong
-instance Eq Puzzle where
-  Puzzle answer discovered guessed wrong ==
-    Puzzle answer2 discovered2 guessed2 wrong2 = True
+-- -- Wrong Definition:
+-- instance Eq Puzzle where
+--   Puzzle answer discovered guessed wrong ==
+--     Puzzle answer2 discovered2 guessed2 wrong2 = True
 
 n :: Maybe a
 n = Nothing
