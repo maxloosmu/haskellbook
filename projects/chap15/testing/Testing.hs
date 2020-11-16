@@ -65,16 +65,18 @@ test5 = sample genMad
 data Optional a =
   Nada | Only a
   deriving (Eq, Show)
-instance Semigroup a
-  => Semigroup (Optional a) where
-    (<>) Nada Nada = Nada
-    (<>) Nada (Only y) = Only y
-    (<>) (Only x) Nada = Only x
-    (<>) (Only x) (Only y) = Only (x <> y)
-instance Monoid a
-  => Monoid (Optional a) where
-    mempty = Nada
-    mappend = (<>)
+-- -- this section is optional because 
+-- -- Optional a is not Monoidally used
+-- instance Semigroup a
+--   => Semigroup (Optional a) where
+--     (<>) Nada Nada = Nada
+--     (<>) Nada (Only y) = Only y
+--     (<>) (Only x) Nada = Only x
+--     (<>) (Only x) (Only y) = Only (x <> y)
+-- instance Monoid a
+--   => Monoid (Optional a) where
+--     mempty = Nada
+--     mappend = (<>)
 instance Arbitrary a => 
   Arbitrary (Optional a) where
     arbitrary = do

@@ -1,6 +1,8 @@
 {-  -}
 import Data.Monoid
 import GHC.Types
+import Data.List.NonEmpty as N
+import Data.Semigroup as S
 
 {-  
 test :: Integer
@@ -121,4 +123,19 @@ test2 :: String
 test2 = madlibbinBetter' "hey" "quickly" 
   "seat" "excited"
 -}
+
+
+xs :: NonEmpty Int
+xs = 1 :| [2, 3]
+ys :: NonEmpty Int
+ys = 4 :| [5, 6]
+test :: NonEmpty Int
+test = xs <> ys
+test2 :: Int
+test2 = N.head xs
+test3 :: [Int]
+test3 = N.tail test
+test4 :: Int
+test4 = N.length test
+
 
