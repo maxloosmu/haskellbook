@@ -181,7 +181,7 @@ newtype First' a =
   First' { getFirst' :: Optional a }
   deriving (Eq, Show)
 -- Functions versions of the constructors
-nada' :: forall a. Nada a
+nada' :: forall a. Optional a
 nada' = Nada @a
 onlyOne :: First' Integer
 onlyOne = First' @Integer (Only @Integer (1 @Integer))
