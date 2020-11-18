@@ -173,20 +173,36 @@ test8 = onlyOne `mappend` onlyTwo
 -}
 
 
-
-data Optional a =
-  Nada | Only a
+instance Semigroup (First' a) where
+  (<>) (First' Nada) (First' Nada) = First' Nada
+  (<>) (First' Nada) (First' y) = First' y
+  (<>) (First' x) (First' Nada) = First' x
+  (<>) (First' x) _ = First' x
+instance Monoid (First' a) where
+  mempty = First' Nada
+  mappend = (<>)
+data Optional a where
+  Nada :: forall a. Optional a
+  Only :: forall a. a -> Optional a
   deriving (Eq, Show)
-newtype First' a =
-  First' { getFirst' :: Optional a }
+data First' a where
+  First' :: forall a. Optional a -> First' a
   deriving (Eq, Show)
--- Functions versions of the constructors
+-- data Optional a =
+--   Nada | Only a
+--   deriving (Eq, Show)
+-- newtype First' a =
+--   First' { getFirst' :: Optional a }
+--   deriving (Eq, Show)
+-- -- Functions versions of the constructors
 nada' :: forall a. Optional a
 nada' = Nada @a
 onlyOne :: First' Integer
-onlyOne = First' @Integer (Only @Integer (1 @Integer))
+onlyOne = First' @Integer (Only @Integer 1)
+onlyTwo :: First' Integer
+onlyTwo = First' @Integer (Only @Integer 2)
 onlyOneGeneric :: forall a. Num a => First' a
-onlyOneGeneric = First' @a (Only @a (1 @a))
+onlyOneGeneric = First' @a (Only @a 1)
 -- In more explicit pseudo-haskell:
 -- onlyOneGeneric @a @dict_num_a = First' @a 
 -- (Only @a (1 @a @dict_num_a))
