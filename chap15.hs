@@ -1,5 +1,5 @@
 {-  -}
-{-# LANGUAGE TypeApplications, ScopedTypeVariables, ExplicitForAll #-}
+{-# LANGUAGE GADTSyntax, TypeApplications, ScopedTypeVariables, ExplicitForAll #-}
 
 import Data.Monoid
 import GHC.Types
@@ -174,9 +174,12 @@ test8 = onlyOne `mappend` onlyTwo
 
 
 
-Nada :: forall a. Optional a
-Only :: forall a. a -> Optional a
-First' :: forall a. Optional a -> First' a
+data Optional a =
+  Nada | Only a
+  deriving (Eq, Show)
+newtype First' a =
+  First' { getFirst' :: Optional a }
+  deriving (Eq, Show)
 -- Functions versions of the constructors
 nada' :: forall a. Nada a
 nada' = Nada @a
