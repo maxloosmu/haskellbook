@@ -1,4 +1,6 @@
 {-  -}
+{-# LANGUAGE TypeApplications, ScopedTypeVariables, ExplicitForAll #-}
+
 import Data.Monoid
 import GHC.Types
 import Data.List.NonEmpty as N
@@ -124,7 +126,7 @@ test2 = madlibbinBetter' "hey" "quickly"
   "seat" "excited"
 -}
 
-
+{-  
 xs :: NonEmpty Int
 xs = 1 :| [2, 3]
 ys :: NonEmpty Int
@@ -137,5 +139,67 @@ test3 :: [Int]
 test3 = N.tail test
 test4 :: Int
 test4 = N.length test
+-}
+
+{-  
+data Optional a =
+  Nada | Only a
+  deriving (Eq, Show)
+newtype First' a =
+  First' { getFirst' :: Optional a }
+  deriving (Eq, Show)
+instance Semigroup (First' a) where
+  (<>) (First' Nada) (First' Nada) = First' Nada
+  (<>) (First' Nada) (First' y) = First' y
+  (<>) (First' x) (First' Nada) = First' x
+  (<>) (First' x) _ = First' x
+instance Monoid (First' a) where
+  mempty = First' Nada
+  mappend = (<>)
+onlyOne :: First' Integer
+onlyOne = First' (Only 1)
+onlyTwo :: First' Integer
+onlyTwo = First' (Only 2)
+nada :: First' a
+nada = First' Nada
+-- surprisingly, nada can concretise 
+-- to Integer
+test6 :: First' Integer
+test6 = onlyOne `mappend` nada
+test7 :: First' Integer
+test7 = nada `mappend` nada
+test8 :: First' Integer
+test8 = onlyOne `mappend` onlyTwo
+-}
+
+
+
+Nada :: forall a. Optional a
+Only :: forall a. a -> Optional a
+First' :: forall a. Optional a -> First' a
+-- Functions versions of the constructors
+nada' :: forall a. Nada a
+nada' = Nada @a
+onlyOne :: First' Integer
+onlyOne = First' @Integer (Only @Integer (1 @Integer))
+onlyOneGeneric :: forall a. Num a => First' a
+onlyOneGeneric = First' @a (Only @a (1 @a))
+-- In more explicit pseudo-haskell:
+-- onlyOneGeneric @a @dict_num_a = First' @a 
+-- (Only @a (1 @a @dict_num_a))
+-- This function takes two implicit parameters, 
+-- one for the type and another for the
+-- dictionary that describes how the type is 
+-- an instance of Num.
+nada :: forall a. First' a
+nada = First' @a (Nada @a)
+test6 :: First' Integer
+test6 = mappend @(First' Integer) onlyOne (nada @Integer)
+test7 :: forall a. First' a
+test7 = mappend @(First' a) (nada @a) (nada @a)
+test8 :: First' Integer
+test8 = mappend @(First' Integer) onlyOne onlyTwo
+
+
 
 

@@ -1,6 +1,5 @@
 module Testing where
 
-import Data.Monoid
 import Test.QuickCheck 
 
 monoidAssoc :: (Eq m, Monoid m)
@@ -119,15 +118,40 @@ check = do
   quickCheck (monoidAssoc :: FirstMappend)
   quickCheck (monoidLeftIdentity :: FstId)
   quickCheck (monoidRightIdentity :: FstId)
-onlyOne :: First' Integer
-onlyOne = First' (Only 1)
-onlyTwo :: First' Integer
-onlyTwo = First' (Only 2)
+
+-- surprisingly, First' (Only (Only 1))
+-- concretise to First' (Optional Integer)
+onlyOne :: First' (Optional Integer)
+onlyOne = First' (Only (Only 1))
+onlyTwo :: First' (Optional Integer)
+onlyTwo = First' (Only (Only 2))
 nada :: First' a
 nada = First' Nada
-test6 :: First' Integer
+-- surprisingly, nada can concretise 
+-- to Integer
+test6 :: First' (Optional Integer)
 test6 = onlyOne `mappend` nada
-test7 :: First' a
+test7 :: First' Integer
 test7 = nada `mappend` nada
-test8 :: First' Integer
+test8 :: First' (Optional Integer)
 test8 = onlyOne `mappend` onlyTwo
+
+newtype First2 a =
+  First2 { getFirst2 :: Maybe a }
+  deriving (Eq, Show)
+instance Semigroup (First2 a) where
+  (<>) (First2 Nothing) (First2 Nothing) = 
+    First2 Nothing
+  (<>) (First2 Nothing) (First2 y) = First2 y
+  (<>) (First2 x) (First2 Nothing) = First2 x
+  (<>) (First2 x) _ = First2 x
+instance Monoid (First2 a) where
+  mempty = First2 Nothing
+  mappend = (<>)
+test9 :: First2 Char
+test9 = First2 Nothing `mappend` 
+  First2 Nothing
+
+
+
+
