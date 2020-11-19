@@ -1,7 +1,10 @@
+{-  -}
+
 module Semigroup where
 
 import Data.Monoid
 import Test.QuickCheck 
+import Data.Semigroup
 
 data Trivial = Trivial deriving (Eq, Show)
 instance Semigroup Trivial where
@@ -72,11 +75,11 @@ data Three a b c = Three a b c
 instance (Semigroup a, Semigroup b, 
   Semigroup c) => Semigroup (Three a b c) 
   where
-    (<>) (Three a b c) (Three d e f) = 
-      Three (a <> d) (b <> e) (c <> f)
+    (<>) (Three a b c) (Three a' b' c') = 
+      Three (a <> a') (b <> b') (c <> c')
 instance (Monoid a, Monoid b, Monoid c) => 
   Monoid (Three a b c) where
-  mempty = Three mempty mempty mempty 
+    mempty = Three mempty mempty mempty 
 instance (Arbitrary a, Arbitrary b, 
   Arbitrary c) => Arbitrary (Three a b c)
   where
@@ -132,22 +135,39 @@ type OrAssoc = Or (Sum Int) (Sum Int) ->
   Or (Sum Int) (Sum Int) -> 
   Or (Sum Int) (Sum Int) -> Bool
 
+
+
 newtype Combine a b =
-  Combine { unCombine :: (a -> b) }
+  Combine { unCombine :: a -> b }
   -- deriving (Eq, Show)
-instance (Show a, Show b) =>
+instance Show b =>
   Show (Combine a b) where
     show _ = "Combine"
-instance (Semigroup a, Semigroup b) => 
+instance Semigroup b =>
   Semigroup (Combine a b) where
-    (<>) (Combine f) (Combine g) = 
-      Combine (f <> g)
+    (<>) (Combine b1) (Combine b2) = 
+      Combine (b1 <> b2)
 f :: Combine Int (Sum Int)
 f = Combine $ \n -> Sum (n + 1)
 g :: Combine Int (Sum Int)
 g = Combine $ \n -> Sum (n - 1)
 test :: Sum Int
-test = unCombine (f <> g) $ 0
+test = unCombine (f <> g) 0
+test2 :: Sum Int
+test2 = unCombine f 0
+-- -- this doesn't work:
+-- -- No instance for (Semigroup Int) 
+-- -- arising from a use of ‘<>’
+-- h :: Combine Int Int
+-- h = Combine $ \n -> n + 1
+-- test3 :: Int
+-- test3 = unCombine (h <> h) 0
+-- -- but this works, Semigroup 
+-- -- not involved:
+-- test3 :: Int
+-- test3 = unCombine h 0
+test4 :: Bool
+test4 = stimes 3 (*2) == \e -> stimes 3 (e*2)
 
 
 

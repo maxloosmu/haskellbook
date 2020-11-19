@@ -186,7 +186,7 @@ data Optional a where
   Only :: forall a. a -> Optional a
   deriving (Eq, Show)
 data First' a where
-  First' :: forall a. Optional a -> First' a
+  First' :: forall a. {getFirst' :: Optional a} -> First' a
   deriving (Eq, Show)
 -- data Optional a =
 --   Nada | Only a
