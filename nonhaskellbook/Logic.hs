@@ -22,14 +22,18 @@ test3 = ((V "a") `And` (C True)) == V "a"
 removeConst :: Form -> Form
 removeConst (Not (C True)) = C False
 removeConst (Not (C False)) = C True
-removeConst (Not x `And` y) = 
-  removeConst (removeConst (Not x) `And` y)
-removeConst (x `And` (Not y)) = 
-  removeConst (x `And` removeConst (Not y))
-removeConst (Not x `Or` y) = 
-  removeConst (removeConst (Not x) `Or` y)
-removeConst (x `Or` (Not y)) = 
-  removeConst (x `Or` removeConst (Not y))
+
+-- -- multiple recursive blows up processing
+-- -- time
+-- removeConst (Not x `And` y) = 
+--   removeConst (removeConst (Not x) `And` y)
+-- removeConst (x `And` (Not y)) = 
+--   removeConst (x `And` removeConst (Not y))
+-- removeConst (Not x `Or` y) = 
+--   removeConst (removeConst (Not x) `Or` y)
+-- removeConst (x `Or` (Not y)) = 
+--   removeConst (x `Or` removeConst (Not y))
+
 removeConst (f `And` (C True)) = f
 removeConst ((C True) `And` f) = f
 removeConst ((C False) `And` _) = C False
@@ -43,6 +47,8 @@ test4 :: Form
 test4 = simplifyConst ((V "a") `And` 
   ((C False) `Or` (C True)))
 simplifyConst :: Form -> Form
+simplifyConst (Not f) = removeConst 
+  (Not (simplifyConst f))
 simplifyConst (f1 `And` f2) = 
   removeConst ((simplifyConst f1) `And` 
   (simplifyConst f2))
@@ -81,23 +87,31 @@ cnf ((f1 `And` f2) `Or` f3) =
   (distribOr f2 f3)
 cnf f = f
 
+-- fvList :: Form -> [String]
+-- fvList ((V x) `And` y) = x : fvList y
+-- fvList (x `And` (V y)) = y : fvList x
+-- fvList (Not (V x) `And` y) = x : fvList y
+-- fvList (x `And` Not (V y)) = y : fvList x
+-- fvList ((V x) `Or` y) = x : fvList y
+-- fvList (x `Or` (V y)) = y : fvList x
+-- fvList (Not (V x) `Or` y) = x : fvList y
+-- fvList (x `Or` Not (V y)) = y : fvList x
+-- fvList (Not (V x)) = [x]
+-- fvList (V x) = [x]
+-- fvList x = []
+-- fv :: Form -> [String]
+-- fv = nub . fvList
+-- test7 :: [String]
+-- test7 = fv (V "a" `And` 
+--   (Not (V "a") `Or` (Not (V "b"))))
+
 fvList :: Form -> [String]
-fvList ((V x) `And` y) = x : fvList y
-fvList (x `And` (V y)) = y : fvList x
-fvList (Not (V x) `And` y) = x : fvList y
-fvList (x `And` Not (V y)) = y : fvList x
-fvList ((V x) `Or` y) = x : fvList y
-fvList (x `Or` (V y)) = y : fvList x
-fvList (Not (V x) `Or` y) = x : fvList y
-fvList (x `Or` Not (V y)) = y : fvList x
-fvList (Not (V x)) = [x]
-fvList (V x) = [x]
-fvList x = []
-fv :: Form -> [String]
-fv = nub . fvList
-test7 :: [String]
-test7 = fv (V "a" `And` 
-  (Not (V "a") `Or` (Not (V "b"))))
+fvList (C _) = []
+fvList (V vn) = [vn]
+fvList (Not f) = fvList f
+fvList (f1 `And` f2) = (fvList f1) `union` (fvList f2)
+fvList (f1 `Or` f2) = (fvList f1) `union` (fvList f2)
+
 
 test8 :: Form
 test8 = subst (V "a" `And` (Not (V "a") 
@@ -132,7 +146,7 @@ evalSubst acc ys = case simplifyConst
   (substAll acc ys) of
     C True -> True
     C False -> False
-    _ -> error "evalSubst error"
+    _ -> error "evalSubst error: not constant"
 
 models :: Form -> [(String, Bool)] -> 
   [String] -> [[(String, Bool)]]
@@ -141,10 +155,12 @@ models f vl [] = if (evalSubst f vl == True)
 models f vl (vn : vns) = 
   models f ((vn, True):vl) vns
   ++ models f ((vn, False):vl) vns
--- allModels must include (nnf f), and 
--- possibly even (cnf (nnf f))
+-- -- allModels may include (nnf f), and 
+-- -- possibly even (cnf (nnf f))
+-- allModels :: Form -> [[(String, Bool)]]
+-- allModels f = models (nnf f) [] (fv (nnf f))
 allModels :: Form -> [[(String, Bool)]]
-allModels f = models (nnf f) [] (fv (nnf f))
+allModels f = models f [] (fvList f)
 test11 :: [[(String, Bool)]]
 test11 = allModels (V "a" `Or` Not (V "b"))
 test111 :: [[(String, Bool)]]

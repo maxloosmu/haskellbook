@@ -1,5 +1,7 @@
 {-  -}
-{-# LANGUAGE GADTSyntax, TypeApplications, ScopedTypeVariables, ExplicitForAll #-}
+{-# LANGUAGE GADTSyntax, TypeApplications, 
+  ScopedTypeVariables, ExplicitForAll #-}
+{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 
 import Data.Monoid
 import GHC.Types
@@ -162,8 +164,11 @@ onlyTwo :: First' Integer
 onlyTwo = First' (Only 2)
 nada :: First' a
 nada = First' Nada
--- surprisingly, nada can concretise 
--- to Integer
+-- surprisingly, Nada can concretise 
+-- to Integer.  Because Nada also
+-- carries an invisible type "a" as a 
+-- data constructor of "Optional a".
+-- see "forall" examples below: 
 test6 :: First' Integer
 test6 = onlyOne `mappend` nada
 test7 :: First' Integer
@@ -196,7 +201,7 @@ data First' a where
 --   deriving (Eq, Show)
 -- -- Functions versions of the constructors
 nada' :: forall a. Optional a
-nada' = Nada @a
+nada' = Nada @a 
 onlyOne :: First' Integer
 onlyOne = First' @Integer (Only @Integer 1)
 onlyTwo :: First' Integer
@@ -205,11 +210,12 @@ onlyOneGeneric :: forall a. Num a => First' a
 onlyOneGeneric = First' @a (Only @a 1)
 -- In more explicit pseudo-haskell:
 -- onlyOneGeneric @a @dict_num_a = First' @a 
--- (Only @a (1 @a @dict_num_a))
+--   (Only @a (1 @a @dict_num_a))
 -- This function takes two implicit parameters, 
 -- one for the type and another for the
 -- dictionary that describes how the type is 
 -- an instance of Num.
+-- More explicit pseudo-haskell doesn't work. 
 nada :: forall a. First' a
 nada = First' @a (Nada @a)
 test6 :: First' Integer

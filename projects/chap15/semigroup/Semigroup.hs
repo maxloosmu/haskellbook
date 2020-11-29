@@ -166,12 +166,19 @@ test2 = unCombine f 0
 -- -- not involved:
 -- test3 :: Int
 -- test3 = unCombine h 0
-test4 :: Bool
-test4 = stimes 3 (*2) == \e -> stimes 3 (e*2)
-
-
-
 -- instance (CoArbitrary a, Arbitrary b) => 
 --   Arbitrary (Combine a b) where
 --     arbitrary = do
 --       fmap Combine arbitrary
+
+
+
+stimes' :: (Semigroup a, Integral b) => b -> (t -> a) -> t -> a
+stimes' n f2 e = stimes n (f2 e)
+f2 :: Sum Int -> Sum Int
+f2 = stimes' 3 (*2)
+test4 :: Sum Int
+test4 = f2 (5 :: Sum Int)
+
+
+
