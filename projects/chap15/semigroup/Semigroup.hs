@@ -172,7 +172,7 @@ test2 = unCombine f 0
 --       fmap Combine arbitrary
 
 
-
+-- this failed:
 stimes' :: (Semigroup a, Integral b) => b -> (t -> a) -> t -> a
 stimes' n f2 e = stimes n (f2 e)
 f2 :: Sum Int -> Sum Int

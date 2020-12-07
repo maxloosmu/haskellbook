@@ -1,0 +1,3 @@
+cd src/haskellbook/projects/chap16/testing
+
+

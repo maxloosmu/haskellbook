@@ -136,6 +136,7 @@ goalToForm (Gl ps) = conj (map V ps)
 progToForm :: Prog -> Form
 progToForm (Pr rls g) = (conj (map ruleToForm rls)) `implies` (goalToForm g)
 
+
 -- Run Prolog programs
 
 solveProp :: [Rule] -> String -> Bool
@@ -173,6 +174,7 @@ abcdProg
   ]
   (Gl ["d", "c"])
 
+
 terminating :: Prog
 terminating
   = Pr
@@ -191,6 +193,7 @@ nonterminating
   ]
   (Gl ["m"])
 
+
 -- ==================================================
 
 -- formGen :: Gen (Form)
@@ -207,6 +210,7 @@ nonterminating
 
 -- instance Arbitrary Form where
 --   arbitrary = formGen
+
 
 -- runTest :: IO ()
 -- runTest = hspec $ do 
