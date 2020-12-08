@@ -171,7 +171,7 @@ liftNextsToPath2 :: [[String]]
 liftNextsToPath2 = map ((["A", "B"] ++) .
   _) ["C", "G"]
 -- -- map words ["C D", "G"] will 
--- -- split C and D, cannot use words
+-- -- split C and D, cannot use words,
 -- -- this works and can be a solution:
 -- liftNextsToPath3 :: [[String]]
 -- liftNextsToPath3 = map (["A", "B"] ++) 
