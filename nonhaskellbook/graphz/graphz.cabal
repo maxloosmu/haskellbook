@@ -9,7 +9,7 @@ cabal-version: >=1.10
 
 library
   exposed-modules: Graphz
-  ghc-options: -Wall -fwarn-tabs
+  ghc-options: -Wall -fwarn-tabs -fno-max-refinement-hole-fits
   build-depends: base >=4.7 && <5
       , hspec
       , QuickCheck
