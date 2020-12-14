@@ -156,8 +156,18 @@ breadthfirst nexts sol x = bfs [x]
       if sol nd
       then nd : bfs (nds ++ nexts nd)
       else bfs (nds ++ nexts nd)
+depthfirst :: (t -> [t]) -> 
+  (t -> Bool) -> t -> [t]
+depthfirst nexts sol x = dfs [x]
+  where
+    dfs [] = []
+    dfs (nd:nds) =
+      if sol nd
+      then nd : dfs (nexts nd ++ nds)
+      else dfs (nexts nd ++ nds)
+
 test6 :: [String]
-test6 = take 5 (breadthfirst 
+test6 = take 5 (depthfirst 
   smallGrNexts (== "G") "A")
 type SearchPath a = [a]
 liftNextsToPath :: (a -> [a]) -> 
@@ -167,9 +177,9 @@ liftNextsToPath f xs = [xs ++ [x] |
 -- -- this works by getting vs code
 -- -- to suggest solutions for _, but
 -- -- it is not a solution:
-liftNextsToPath2 :: [[String]]
-liftNextsToPath2 = map ((["A", "B"] ++) .
-  _) ["C", "G"]
+-- liftNextsToPath2 :: [[String]]
+-- liftNextsToPath2 = map ((["A", "B"] ++) .
+--   _) ["C", "G"]
 -- -- map words ["C D", "G"] will 
 -- -- split C and D, cannot use words,
 -- -- this works and can be a solution:
@@ -179,9 +189,168 @@ liftNextsToPath2 = map ((["A", "B"] ++) .
 -- -- this works and outputs: ["C"]
 -- test7 :: [String]
 -- test7 =  "C" :[]
+-- -- this works, but adding no 
+-- -- duplication may be very difficult:
+liftNextsToPath4 :: (a -> [a]) -> 
+  [a] -> [[a]]
+liftNextsToPath4 f xs = 
+  map ((xs ++) . (:[])) (f (last xs))
 test8 :: [SearchPath String]
 test8 = liftNextsToPath 
   smallGrNexts ["A", "B"]
+-- changed liftNextsToPath to
+-- liftNextsToPathNoDup
+pathsFromToBFS :: Eq a => 
+  (a -> [a]) -> a -> a -> 
+  [SearchPath a]
+pathsFromToBFS nexts start goal =
+  breadthfirst
+  (liftNextsToPathNoDup2 nexts)
+  (\pth -> last pth == goal)
+  [start]
+pathsFromToDFS :: Eq a => 
+  (a -> [a]) -> a -> a -> 
+  [SearchPath a]
+pathsFromToDFS nexts start goal =
+  depthfirst
+  (liftNextsToPathNoDup2 nexts)
+  (\pth -> last pth == goal)
+  [start]
+test9 :: [SearchPath String]
+test9 = take 5 (pathsFromToDFS 
+  smallGrNexts "A" "G") 
+liftNextsToPathNoDup :: (Eq a) =>
+  (a -> [a]) -> SearchPath a ->
+  [SearchPath a]
+liftNextsToPathNoDup f xs = [xs ++ [x] | 
+  x <- f (last xs), x `notElem` xs]
+
+-- Martin's Notes:
+-- concatMap :: Foldable t => 
+--   (a -> [b]) -> t a -> [b]
+-- When instantiating t with lists, 
+-- we get: concatMap ::  (a -> [b]) ->  
+-- [a] -> [b] . The argument of concatMap 
+-- is of type String -> [[String]] in the
+-- examples, so the type parameter a 
+-- becomes instantiated with String and 
+-- type parameter b with [String], so for
+-- an argument [String] (= SearchPath 
+-- String), the result has type [[String]]
+-- ( = [SearchPath String] ).
+-- My Notes:
+-- n is String, [pth ++ [n]] is [[String]]
+-- so (\n -> if n `elem` pth then [] 
+--   else [pth ++ [n]]) 
+-- will be String -> [[String]]
+liftNextsToPathNoDup2 :: (Eq a) =>
+  (a -> [a]) -> SearchPath a ->
+  [SearchPath a]
+liftNextsToPathNoDup2 nxts pth = 
+  concatMap
+  (\n -> if n `elem` pth then [] 
+    else [pth ++ [n]])
+  (nxts (last pth))
+
+
+
+data Side = Ls | Rs
+  deriving (Eq, Ord, Show , Read)
+type CfgwState = (Side , Side , Side , Side)
+crossCabbage :: (Side, b, c, d) -> 
+  (Side, b, c, d)
+crossCabbage (c, f, g, w) = 
+  if c == Ls then (Rs, f, g, w)
+  else (Ls, f, g, w)
+crossFerryman :: (a, Side, c, d) -> 
+  (a, Side, c, d)
+crossFerryman (c, f, g, w) = 
+  if f == Ls then (c, Rs, g, w)
+  else (c, Ls, g, w)
+crossGoat :: (a, b, Side, d) -> 
+  (a, b, Side, d)
+crossGoat (c, f, g, w) = 
+  if g == Ls then (c, f, Rs, w)
+  else (c, f, Ls, w)
+crossWolf :: (a, b, c, Side) -> 
+  (a, b, c, Side)
+crossWolf (c, f, g, w) = 
+  if w == Ls then (c, f, g, Rs)
+  else (c, f, g, Ls)
+
+validState :: CfgwState -> Bool
+validState (Ls, Rs, Ls, _) = False
+validState (Rs, Ls, Rs, _) = False
+validState (_, Rs, Ls, Ls) = False
+validState (_, Ls, Rs, Rs) = False
+validState (_, _, _, _) = True
+cross :: [(Side, Side, Side, Side) -> 
+  (Side, Side, Side, Side)]
+cross = [crossCabbage, crossGoat, 
+  crossWolf]
+max2cross :: [(Side, Side, Side, Side) 
+  -> (Side, Side, Side, Side)]
+max2cross = [x . crossFerryman | 
+  x <- cross] ++ [crossFerryman]
+crossBoat :: CfgwState -> [CfgwState]
+crossBoat s = filter validState $ 
+  max2cross <*> [s]
+test10 :: [CfgwState]
+test10 = crossBoat (Ls, Ls, Ls, Ls)
+test11 :: [SearchPath CfgwState]
+test11 = take 3 (pathsFromToBFS 
+  crossBoat (Ls, Ls, Ls, Ls) 
+  (Rs, Rs, Rs, Rs))
+test12 :: [SearchPath CfgwState]
+test12 = take 3 (pathsFromToDFS 
+  crossBoat (Ls, Ls, Ls, Ls) 
+  (Rs, Rs, Rs, Rs))
+rGNodes :: [String]
+rGNodes = ["(Ls,Ls,Ls,Ls)", 
+  "(Rs,Ls,Ls,Ls)", "(Ls,Rs,Ls,Ls)", 
+  "(Ls,Ls,Rs,Ls)", "(Ls,Ls,Ls,Rs)",
+  "(Rs,Rs,Ls,Ls)", "(Ls,Rs,Rs,Ls)",
+  "(Ls,Ls,Rs,Rs)", "(Rs,Ls,Ls,Rs)",
+  "(Rs,Ls,Rs,Ls)", "(Ls,Rs,Ls,Rs)",
+  "(Ls,Rs,Rs,Rs)", "(Rs,Ls,Rs,Rs)",
+  "(Rs,Rs,Ls,Rs)", "(Rs,Rs,Rs,Ls)",
+  "(Rs,Rs,Rs,Rs)"]
+rGNodes2 :: [String]
+rGNodes2 = ["(Ls,Ls,Ls,Ls)", 
+  "(Ls,Rs,Rs,Ls)", 
+  "(Ls,Ls,Rs,Ls)", 
+  "(Rs,Rs,Rs,Ls)",
+  "(Ls,Rs,Rs,Rs)",
+  "(Rs,Ls,Ls,Ls)",
+  "(Rs,Rs,Ls,Rs)", 
+  "(Rs,Ls,Ls,Rs)", 
+  "(Ls,Ls,Ls,Rs)",
+  "(Rs,Rs,Rs,Rs)"]
+rGrNexts :: String -> [String]
+rGrNexts x = case x of
+  "(Ls,Ls,Ls,Ls)" -> ["(Ls,Rs,Rs,Ls)"]
+  "(Ls,Rs,Rs,Ls)" -> ["(Ls,Ls,Rs,Ls)"]
+  "(Ls,Ls,Rs,Ls)" -> ["(Rs,Rs,Rs,Ls)", 
+    "(Ls,Rs,Rs,Rs)"]
+  "(Rs,Rs,Rs,Ls)" -> ["(Rs,Ls,Ls,Ls)"]
+  "(Rs,Ls,Ls,Ls)" -> ["(Rs,Rs,Ls,Rs)"]
+  "(Rs,Rs,Ls,Rs)" -> ["(Rs,Ls,Ls,Rs)"]
+  "(Rs,Ls,Ls,Rs)" -> ["(Rs,Rs,Rs,Rs)"]
+  "(Ls,Rs,Rs,Rs)" -> ["(Ls,Ls,Ls,Rs)"]
+  "(Ls,Ls,Ls,Rs)" -> ["(Rs,Rs,Ls,Rs)"]
+  _ -> []
+riverGraph :: Gr String String
+riverGraph =
+  edgeListGraphToGr 
+  (nextFunGraphToEdgeListGraph
+  (NFG rGNodes 
+  rGrNexts))
+riverGrDot :: IO FilePath
+riverGrDot = runGraphviz
+  (graphToDot quickParams riverGraph) 
+  Pdf "graph5.pdf"
+
+
 
 
 

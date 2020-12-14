@@ -1,4 +1,4 @@
 cd src/haskellbook/nonhaskellbook
 
-
+cd src/haskellbook/nonhaskellbook/graphz
 
