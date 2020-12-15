@@ -315,17 +315,6 @@ rGNodes = ["(Ls,Ls,Ls,Ls)",
   "(Ls,Rs,Rs,Rs)", "(Rs,Ls,Rs,Rs)",
   "(Rs,Rs,Ls,Rs)", "(Rs,Rs,Rs,Ls)",
   "(Rs,Rs,Rs,Rs)"]
-rGNodes2 :: [String]
-rGNodes2 = ["(Ls,Ls,Ls,Ls)", 
-  "(Ls,Rs,Rs,Ls)", 
-  "(Ls,Ls,Rs,Ls)", 
-  "(Rs,Rs,Rs,Ls)",
-  "(Ls,Rs,Rs,Rs)",
-  "(Rs,Ls,Ls,Ls)",
-  "(Rs,Rs,Ls,Rs)", 
-  "(Rs,Ls,Ls,Rs)", 
-  "(Ls,Ls,Ls,Rs)",
-  "(Rs,Rs,Rs,Rs)"]
 rGrNexts :: String -> [String]
 rGrNexts x = case x of
   "(Ls,Ls,Ls,Ls)" -> ["(Ls,Rs,Rs,Ls)"]
@@ -350,6 +339,26 @@ riverGrDot = runGraphviz
   (graphToDot quickParams riverGraph) 
   Pdf "graph5.pdf"
 
+rGNodes2 :: [CfgwState]
+rGNodes2 = [(Ls,Ls,Ls,Ls), 
+  (Rs,Ls,Ls,Ls), (Ls,Rs,Ls,Ls), 
+  (Ls,Ls,Rs,Ls), (Ls,Ls,Ls,Rs),
+  (Rs,Rs,Ls,Ls), (Ls,Rs,Rs,Ls),
+  (Ls,Ls,Rs,Rs), (Rs,Ls,Ls,Rs),
+  (Rs,Ls,Rs,Ls), (Ls,Rs,Ls,Rs),
+  (Ls,Rs,Rs,Rs), (Rs,Ls,Rs,Rs),
+  (Rs,Rs,Ls,Rs), (Rs,Rs,Rs,Ls),
+  (Rs,Rs,Rs,Rs)]
+riverGraph2 :: Gr CfgwState String
+riverGraph2 =
+  edgeListGraphToGr 
+  (nextFunGraphToEdgeListGraph
+  (NFG rGNodes2 
+  crossBoat))
+riverGrDot2 :: IO FilePath
+riverGrDot2 = runGraphviz
+  (graphToDot quickParams riverGraph2) 
+  Pdf "graph6.pdf"
 
 
 
