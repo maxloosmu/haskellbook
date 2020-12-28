@@ -3,7 +3,8 @@
 module Graphz where
 
 -- import Data.Maybe
--- import Data.Text.Lazy as T (pack)
+import Data.Text.Lazy as T (pack)
+-- import Data.List
 
 import Data.Graph.Inductive.Graph
 import Data.Graph.Inductive.PatriciaTree
@@ -11,7 +12,7 @@ import Data.Graph.Inductive.PatriciaTree
 import Data.GraphViz
 -- import Data.GraphViz.Printing
 -- import Data.GraphViz.Commands
--- import Data.GraphViz.Attributes.Complete
+import Data.GraphViz.Attributes.Complete
 
 smallGrNodes :: [LNode String]
 smallGrNodes = [(0, "A"), (1, "B"), 
@@ -302,9 +303,13 @@ test11 = take 3 (pathsFromToBFS
   crossBoat (Ls, Ls, Ls, Ls) 
   (Rs, Rs, Rs, Rs))
 test12 :: [SearchPath CfgwState]
-test12 = take 3 (pathsFromToDFS 
+test12 = pathsFromToDFS 
   crossBoat (Ls, Ls, Ls, Ls) 
-  (Rs, Rs, Rs, Rs))
+  (Rs, Rs, Rs, Rs)
+
+-- graph5.pdf, graph7.pdf previously 
+-- require MAC computer, now Windows 
+-- is ok, not sure why..
 rGNodes :: [String]
 rGNodes = ["(Ls,Ls,Ls,Ls)", 
   "(Rs,Ls,Ls,Ls)", "(Ls,Rs,Ls,Ls)", 
@@ -339,8 +344,39 @@ riverGrDot = runGraphviz
   (graphToDot quickParams riverGraph) 
   Pdf "graph5.pdf"
 
-rGNodes2 :: [CfgwState]
-rGNodes2 = [(Ls,Ls,Ls,Ls), 
+-- rGNodes2 :: [CfgwState]
+-- rGNodes2 = [(Ls,Ls,Ls,Ls), 
+--   (Rs,Ls,Ls,Ls), (Ls,Rs,Ls,Ls), 
+--   (Ls,Ls,Rs,Ls), (Ls,Ls,Ls,Rs),
+--   (Rs,Rs,Ls,Ls), (Ls,Rs,Rs,Ls),
+--   (Ls,Ls,Rs,Rs), (Rs,Ls,Ls,Rs),
+--   (Rs,Ls,Rs,Ls), (Ls,Rs,Ls,Rs),
+--   (Ls,Rs,Rs,Rs), (Rs,Ls,Rs,Rs),
+--   (Rs,Rs,Ls,Rs), (Rs,Rs,Rs,Ls),
+--   (Rs,Rs,Rs,Rs)]
+-- -- not possible to use rGrNexts2 or 
+-- -- pathsFromToBFS to replace crossBoat
+-- rGrNexts2 :: [SearchPath CfgwState]
+-- rGrNexts2 = pathsFromToBFS 
+--   crossBoat (Ls, Ls, Ls, Ls) 
+--   (Rs, Rs, Rs, Rs)
+-- riverGraph2 :: Gr CfgwState String
+-- riverGraph2 =
+--   edgeListGraphToGr 
+--   (nextFunGraphToEdgeListGraph
+--   (NFG rGNodes2 
+--   crossBoat))
+-- -- crossBoat in riverGraph2 doesn't
+-- -- work, leads to quickParams error in 
+-- -- riverGrDot2, graph6.pdf cannot be 
+-- -- created:
+-- riverGrDot2 :: IO FilePath
+-- riverGrDot2 = runGraphviz
+--   (graphToDot quickParams riverGraph2) 
+--   Pdf "graph6.pdf"
+
+cfgwNodes :: [CfgwState]
+cfgwNodes = [(Ls,Ls,Ls,Ls), 
   (Rs,Ls,Ls,Ls), (Ls,Rs,Ls,Ls), 
   (Ls,Ls,Rs,Ls), (Ls,Ls,Ls,Rs),
   (Rs,Rs,Ls,Ls), (Ls,Rs,Rs,Ls),
@@ -349,16 +385,74 @@ rGNodes2 = [(Ls,Ls,Ls,Ls),
   (Ls,Rs,Rs,Rs), (Rs,Ls,Rs,Rs),
   (Rs,Rs,Ls,Rs), (Rs,Rs,Rs,Ls),
   (Rs,Rs,Rs,Rs)]
-riverGraph2 :: Gr CfgwState String
-riverGraph2 =
-  edgeListGraphToGr 
-  (nextFunGraphToEdgeListGraph
-  (NFG rGNodes2 
-  crossBoat))
-riverGrDot2 :: IO FilePath
-riverGrDot2 = runGraphviz
-  (graphToDot quickParams riverGraph2) 
-  Pdf "graph6.pdf"
+cfgwGraph :: Gr CfgwState String
+cfgwGraph = edgeListGraphToGr 
+  (nextFunGraphToEdgeListGraph 
+  (NFG cfgwNodes crossBoat))
+cfgwDot :: IO FilePath
+cfgwDot = runGraphviz 
+  (graphToDot quickParams cfgwGraph) 
+  Pdf "graph7.pdf"
+instance Labellable CfgwState where
+  toLabelValue s = StrLabel (T.pack (show s))
+
+
+-- -- these don't seem to have a future:
+-- chessGrNodes :: [LNode Int]
+-- chessGrNodes = [(0, 1), (1, 2), 
+--   (2, 3), (3, 4)
+--   ]
+-- type BoardSize = Int
+-- type BoardState = [(BoardSize, BoardSize)]
+-- type ChessState = [Int]
+-- boardSize :: BoardSize
+-- boardSize = 4
+-- xAxis :: [BoardSize]
+-- xAxis = [1..boardSize]
+-- yAxis :: [BoardSize]
+-- yAxis = [1..boardSize]
+-- boardState :: BoardState
+-- boardState = zip xAxis yAxis
+-- validY :: Int -> Int -> Bool
+-- validY y1 y2
+--   | y1 == y2 = False
+--   | otherwise = True
+-- reduceY :: Int -> [Int] -> [Int]
+-- reduceY y = filter (/= y)
+
+-- -- this doesn't work very well:
+-- reduceY :: Eq a => a -> [a] -> [a]
+-- reduceY y = filter (/= y)
+-- computeY :: [[Int]] -> [[Int]]
+-- computeY [] = []
+-- computeY [y1] = [y1]
+-- computeY (y1:y2:ys) = reduceY y1 
+--   (filter validY2 (y1:y2:ys)) where
+--     validY2 [] = False
+--     validY2 [_] = True
+--     validY2 (y3:y4:_)
+--       | y3 == y4 = False
+--       | otherwise = True
+-- test13 :: [[BoardSize]]
+-- test13 = computeY [yAxis]
+
+
+-- wiki.haskell.org/99_questions/Solutions/90
+queen :: Int -> [[Int]]
+queen n = generate n where 
+  generate 0 = [[]]
+  generate k = [q : qs | q <- [1..n], 
+    qs <- generate (k-1)]
+queen2 :: Int -> [[Int]]
+queen2 n = filter check (queen n) where
+  check [] = True
+  check (q:qs) = isSafe q qs && check qs
+  isSafe try qs = try `notElem` qs &&
+    not (sameDiag try qs)
+  sameDiag try qs = any (\(colDist, q2)
+    -> abs (try - q2) == colDist) 
+    $ zip [1..] qs
+
 
 
 

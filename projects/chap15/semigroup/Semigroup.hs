@@ -44,7 +44,8 @@ newtype Identity a = Identity a
   deriving (Eq, Show)
 instance Semigroup a => 
   Semigroup (Identity a) where
-    (<>) (Identity a) (Identity b) = Identity (a <> b)
+    (<>) (Identity a) (Identity b) = 
+      Identity (a <> b)
 instance Arbitrary a => 
   Arbitrary (Identity a) where
     arbitrary = do
@@ -94,7 +95,8 @@ type ThreeAssoc = Three String String
   String ->
   Three String String
   String -> Bool
-type ThreeMAssoc = Three [String] (Maybe (Product Float))
+type ThreeMAssoc = Three [String] 
+  (Maybe (Product Float))
   [Either (Sum Double) Char] -> Bool
 
 newtype BoolConj = BoolConj Bool
@@ -172,13 +174,14 @@ test2 = unCombine f 0
 --       fmap Combine arbitrary
 
 
--- this failed:
-stimes' :: (Semigroup a, Integral b) => b -> (t -> a) -> t -> a
-stimes' n f2 e = stimes n (f2 e)
-f2 :: Sum Int -> Sum Int
-f2 = stimes' 3 (*2)
-test4 :: Sum Int
-test4 = f2 (5 :: Sum Int)
+-- -- this failed:
+-- stimes' :: (Semigroup a, Integral b) => 
+--   b -> (t -> a) -> t -> a
+-- stimes' n f2 e = stimes n (f2 e)
+-- f2 :: Sum Int -> Sum Int
+-- f2 = stimes' 3 (*2)
+-- test4 :: Sum Int
+-- test4 = f2 (5 :: Sum Int)
 
 
 

@@ -1,4 +1,6 @@
 cd src/haskellbook
 
-stack ghci chap16.hs
+stack ghci chap17.hs
+
+:set -Wall
 
