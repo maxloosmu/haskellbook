@@ -1,3 +1,5 @@
+-- {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+-- {-# LANGUAGE DeriveFunctor #-}
 
 
 apply :: [t -> Int] -> [t] -> [Int]
@@ -17,16 +19,26 @@ newtype ZipList1 a = ZipList1
   { getZipList :: [a] }
   deriving (Eq, Show)
 instance Functor ZipList1 where
-  fmap f (ZipList1 [x]) = ZipList1 [f x]
-  fmap _ (ZipList1 []) = ZipList1 []
-  fmap _ (ZipList1 (_:_:_)) = ZipList1 []
+  fmap f (ZipList1 (x:xs)) = 
+    ZipList1 (f x : fmap f xs)
+-- -- this works very well:
+-- instance Functor ZipList1 where
+--   fmap f (ZipList1 xs) = 
+--     ZipList1 (fmap f xs)
+-- -- this works, but is inflexible with 
+-- -- longer strings
+-- instance Functor ZipList1 where
+--   fmap f (ZipList1 (x1:x2:x3:_)) = 
+--     ZipList1 ([f x1]++[f x2]++[f x3])
+--   fmap _ (ZipList1 []) = ZipList1 []
 instance Applicative ZipList1 where
   pure x = ZipList1 (repeat x)
   ZipList1 fs <*> ZipList1 xs = 
     ZipList1 (zipWith (\f x -> f x) fs xs)
 apply3 :: [(Char, Char, Char)]
-apply3 = getZipList $ (,,) <$> ZipList1 "dog" 
-  <*> ZipList1 "cat" <*> ZipList1 "rat"
+apply3 = getZipList $ (,,) <$> ZipList1 "doggy" 
+  <*> ZipList1 "catty" <*> ZipList1 "ratty"
+
 
 
 

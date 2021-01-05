@@ -2,7 +2,7 @@ cd src/haskellbook/nonhaskellbook
 
 cd src/haskellbook/nonhaskellbook/Martin/graphz
 
-cd src/haskellbook/nonhaskellbook/LYAHFGG
+cd src/haskellbook/nonhaskellbook/LYAH
 
 stack ghci chap11.hs
 
