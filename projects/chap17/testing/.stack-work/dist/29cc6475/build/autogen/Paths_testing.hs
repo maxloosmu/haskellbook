@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "/mnt/c/Users/Max/src/haskellbook/projects/chap17/testing/.stack-work/install/x86_64-linux/bc08172b2a631c62c9e4a608002cbee0430189b2dbae492c5632ae0b5de95b43/8.8.4/bin"
-libdir     = "/mnt/c/Users/Max/src/haskellbook/projects/chap17/testing/.stack-work/install/x86_64-linux/bc08172b2a631c62c9e4a608002cbee0430189b2dbae492c5632ae0b5de95b43/8.8.4/lib/x86_64-linux-ghc-8.8.4/testing-0.1.0.0-KlcNnLQDWI6LWRTnl13m6g"
-dynlibdir  = "/mnt/c/Users/Max/src/haskellbook/projects/chap17/testing/.stack-work/install/x86_64-linux/bc08172b2a631c62c9e4a608002cbee0430189b2dbae492c5632ae0b5de95b43/8.8.4/lib/x86_64-linux-ghc-8.8.4"
-datadir    = "/mnt/c/Users/Max/src/haskellbook/projects/chap17/testing/.stack-work/install/x86_64-linux/bc08172b2a631c62c9e4a608002cbee0430189b2dbae492c5632ae0b5de95b43/8.8.4/share/x86_64-linux-ghc-8.8.4/testing-0.1.0.0"
-libexecdir = "/mnt/c/Users/Max/src/haskellbook/projects/chap17/testing/.stack-work/install/x86_64-linux/bc08172b2a631c62c9e4a608002cbee0430189b2dbae492c5632ae0b5de95b43/8.8.4/libexec/x86_64-linux-ghc-8.8.4/testing-0.1.0.0"
-sysconfdir = "/mnt/c/Users/Max/src/haskellbook/projects/chap17/testing/.stack-work/install/x86_64-linux/bc08172b2a631c62c9e4a608002cbee0430189b2dbae492c5632ae0b5de95b43/8.8.4/etc"
+bindir     = "C:\\Users\\Max\\src\\haskellbook\\projects\\chap17\\testing\\.stack-work\\install\\31b4a0dc\\bin"
+libdir     = "C:\\Users\\Max\\src\\haskellbook\\projects\\chap17\\testing\\.stack-work\\install\\31b4a0dc\\lib\\x86_64-windows-ghc-8.8.4\\testing-0.1.0.0-IkVt1NtyTqyJkWQPiuSuEf"
+dynlibdir  = "C:\\Users\\Max\\src\\haskellbook\\projects\\chap17\\testing\\.stack-work\\install\\31b4a0dc\\lib\\x86_64-windows-ghc-8.8.4"
+datadir    = "C:\\Users\\Max\\src\\haskellbook\\projects\\chap17\\testing\\.stack-work\\install\\31b4a0dc\\share\\x86_64-windows-ghc-8.8.4\\testing-0.1.0.0"
+libexecdir = "C:\\Users\\Max\\src\\haskellbook\\projects\\chap17\\testing\\.stack-work\\install\\31b4a0dc\\libexec\\x86_64-windows-ghc-8.8.4\\testing-0.1.0.0"
+sysconfdir = "C:\\Users\\Max\\src\\haskellbook\\projects\\chap17\\testing\\.stack-work\\install\\31b4a0dc\\etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "testing_bindir") (\_ -> return bindir)
@@ -47,4 +47,4 @@ getSysconfDir = catchIO (getEnv "testing_sysconfdir") (\_ -> return sysconfdir)
 getDataFileName :: FilePath -> IO FilePath
 getDataFileName name = do
   dir <- getDataDir
-  return (dir ++ "/" ++ name)
+  return (dir ++ "\\" ++ name)

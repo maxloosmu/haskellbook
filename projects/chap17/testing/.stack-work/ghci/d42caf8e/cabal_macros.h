@@ -55,15 +55,15 @@
   (major1) == 2 && (major2) == 7 && (minor) <= 4)
 #endif /* MIN_VERSION_hspec */
 
-/* tool gcc-7 */
+/* tool gcc-7.2.0 */
 #ifndef TOOL_VERSION_gcc
-#define TOOL_VERSION_gcc "7"
+#define TOOL_VERSION_gcc "7.2.0"
 #endif /* TOOL_VERSION_gcc */
 #ifndef MIN_TOOL_VERSION_gcc
 #define MIN_TOOL_VERSION_gcc(major1,major2,minor) (\
   (major1) <  7 || \
-  (major1) == 7 && (major2) <  0 || \
-  (major1) == 7 && (major2) == 0 && (minor) <= 0)
+  (major1) == 7 && (major2) <  2 || \
+  (major1) == 7 && (major2) == 2 && (minor) <= 0)
 #endif /* MIN_TOOL_VERSION_gcc */
 
 /* tool ghc-8.8.4 */
@@ -132,23 +132,26 @@
   (major1) == 8 && (major2) == 8 && (minor) <= 4)
 #endif /* MIN_TOOL_VERSION_runghc */
 
-/* tool strip-2.30 */
+/* tool strip-2.29 */
 #ifndef TOOL_VERSION_strip
-#define TOOL_VERSION_strip "2.30"
+#define TOOL_VERSION_strip "2.29"
 #endif /* TOOL_VERSION_strip */
 #ifndef MIN_TOOL_VERSION_strip
 #define MIN_TOOL_VERSION_strip(major1,major2,minor) (\
   (major1) <  2 || \
-  (major1) == 2 && (major2) <  30 || \
-  (major1) == 2 && (major2) == 30 && (minor) <= 0)
+  (major1) == 2 && (major2) <  29 || \
+  (major1) == 2 && (major2) == 29 && (minor) <= 0)
 #endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_PACKAGE_KEY
-#define CURRENT_PACKAGE_KEY "testing-0.1.0.0-KlcNnLQDWI6LWRTnl13m6g"
+#define CURRENT_PACKAGE_KEY "testing-0.1.0.0-IkVt1NtyTqyJkWQPiuSuEf"
 #endif /* CURRENT_PACKAGE_KEY */
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "testing-0.1.0.0-KlcNnLQDWI6LWRTnl13m6g"
+#define CURRENT_COMPONENT_ID "testing-0.1.0.0-IkVt1NtyTqyJkWQPiuSuEf"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"
 #endif /* CURRENT_PACKAGE_VERSION */
+
+#undef CURRENT_PACKAGE_KEY
+#undef CURRENT_COMPONENT_ID
