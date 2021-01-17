@@ -1,3 +1,4 @@
 cd src/haskellbook/projects/chap17/testing
 
+stack ghci Testing.hs
 

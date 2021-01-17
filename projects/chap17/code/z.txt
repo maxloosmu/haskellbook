@@ -1,0 +1,4 @@
+cd src/haskellbook/projects/chap17/code
+
+stack ghci Code.hs
+

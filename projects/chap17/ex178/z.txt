@@ -1,0 +1,4 @@
+cd src/haskellbook/projects/chap17/ex178
+
+stack ghci Ex178.hs
+
