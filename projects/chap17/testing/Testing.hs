@@ -13,9 +13,9 @@ import Control.Applicative
   getZipList, Alternative )
 import Data.Monoid ( Sum )
 import Test.QuickCheck
-    ( frequency,
-      (==>),
-      within,
+    ( frequency, NonEmptyList,
+      (==>), listOf1,
+      within, Gen,
       quickCheck,
       Arbitrary(arbitrary),
       Property ) 
@@ -24,7 +24,8 @@ import Test.QuickCheck.Checkers
 import Test.QuickCheck.Classes 
   ( applicative, functor, monoid ) 
 import Test.QuickCheck.Arbitrary ()
-
+import Test.QuickCheck.Modifiers 
+  (NonEmptyList (..))
 
 -- 17.7 You knew this was coming
 --------------------------------
@@ -101,15 +102,23 @@ instance Eq a => EqProp (Maeb a) where
 ----------------------
 -- -- this cause mconcat to stack 
 -- -- overflow:
--- instance Semigroup a 
---   => Semigroup (ZipList a) where
---     (<>) = liftA2 (<>)
--- instance Monoid a
---   => Monoid (ZipList a) where
---     mempty = pure mempty 
---     mappend = liftA2 mappend
---     mconcat as = 
---       foldr mappend mempty as
+instance Semigroup a 
+  => Semigroup (ZipList a) where
+    (<>) = liftA2 (<>)
+instance Monoid a
+  => Monoid (ZipList a) where
+    mempty = pure mempty 
+    mappend = liftA2 mappend
+    mconcat as = 
+      foldr mappend mempty as
+mconcatP :: NonEmptyList a -> Property
+mconcatP (nonEmptyList as) = mconcat as =-= 
+  foldr mappend mempty as
+nonEmptyList :: Gen [[Int]]
+nonEmptyList = listOf1 (arbitrary :: Gen [Int])
+
+zl :: ZipList (Sum Int)
+zl = ZipList [1,1 :: Sum Int]
 -- -- instance Arbitrary a
 -- --   => Arbitrary (ZipList a) where
 -- --     arbitrary = ZipList <$> arbitrary
@@ -156,8 +165,6 @@ instance Eq a => EqProp (Maeb a) where
 --     mconcat as = if as /= [] then
 --       foldr mappend mempty as
 --       else ZipList []
--- zl :: ZipList (Sum Int)
--- zl = ZipList [1,1 :: Sum Int]
 
 -- -- developing newtype may not work:
 -- newtype Ziplist a = Ziplst { getZiplst::a }
@@ -190,18 +197,19 @@ test = app <> app
 instance Arbitrary (f a) =>
   Arbitrary (Ap f a) where
     arbitrary = Ap <$> arbitrary  
-instance Eq a => EqProp (Ap ZipList a) where
-  xs =-= ys = xs' `eq` ys' where 
-    xs' = 
-      let (Ap (ZipList l)) = xs
-        in take 3000 l
-    ys' = 
-      let l = (getZipList . getAp) ys
-        in take 3000 l
+-- instance Eq a => EqProp (Ap ZipList a) where
+--   xs =-= ys = xs' `eq` ys' where 
+--     xs' = 
+--       let (Ap (ZipList l)) = xs
+--         in take 3000 l
+--     ys' = 
+--       let l = (getZipList . getAp) ys
+--         in take 3000 l
 
 newtype MonZipList a = 
   MonZipList (Ap ZipList a)
-  deriving (Semigroup, Monoid, Eq, Show)
+  deriving (Semigroup, Monoid, Functor, 
+  Applicative, Eq, Show)
 deriving instance Functor f => 
   Functor (Ap f)
 deriving instance Applicative f => 
@@ -212,7 +220,16 @@ instance Arbitrary a =>
   Arbitrary (MonZipList a) where
     arbitrary = MonZipList <$> arbitrary
 instance Eq a => EqProp (MonZipList a) where
-  (=-=) = eq
+  MonZipList (Ap (ZipList xs)) =-= MonZipList (Ap (ZipList ys)) = 
+    take 3000 xs `eq` take 3000 ys
+
+
+
+
+
+
+
+
 
 main :: IO ()
 main = do 
@@ -223,8 +240,13 @@ main = do
   -- quickBatch $ applicative 
   --   (undefined :: Maeb 
   --   (Int, String, Maybe Char))
+  quickBatch $ monoid zl
   -- quickCheck (mconcatP @(ZipList (Sum Int)))
   -- quickCheck (mconcatP' @(ZipList (Sum Int)))
-  quickBatch $ monoid app
-  -- quickBatch $ monoid monapp
-  -- quickBatch $ functor monapp
+  -- -- monoid app goes with 
+  -- -- EqProp (Ap ZipList a):
+  -- quickBatch $ monoid app
+  quickBatch $ monoid monapp
+  quickBatch $ monoid @(MonZipList (Sum Int)) undefined
+  quickBatch $ functor @MonZipList @Int @Bool @Char undefined
+  quickBatch $ applicative @MonZipList @String @Int @Char undefined

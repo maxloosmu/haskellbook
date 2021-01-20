@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleContexts #-}
 
 import Data.Char ( toUpper )
 import qualified Data.Map as DM
@@ -260,6 +261,23 @@ test9 = (Just (+2) <*> pure 2 :: Maybe Int)
 test10 :: Bool
 test10 = ([(+2), (*2)] <*> pure 1 :: [Int])
   == (pure ($ 1) <*> [(+2), (*2)])
+
+-- LYAH Chapter 11 Section 11.2
+-------------------------------
+seqA :: (Applicative f) => 
+  [f a] -> f [a]
+seqA [] = pure []
+seqA (x:xs) = (:) <$> x <*> seqA xs
+check :: [Integer]
+check = seqA [(+1)] 1
+check2 :: [Integer]
+check2 = ((:) <$> (+1) <*> pure []) 1
+-- check3 = ((+(1:)) <*> pure []) 1
+-- check4 = (+(1:[])) 1
+
+test11 :: Integer
+test11 = ((+) <$> (+3) <*> (*2)) 2
+
 
 
 

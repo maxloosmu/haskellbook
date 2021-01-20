@@ -1,7 +1,7 @@
 -- {-# LANGUAGE FlexibleContexts #-}
 -- {-# LANGUAGE UndecidableInstances #-}
 -- {-# LANGUAGE RankNTypes #-}
--- {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module Ex178 where
@@ -158,11 +158,40 @@ instance Applicative List where
   pure x = Cons x Nil
   (<*>) _ Nil = Nil
   (<*>) Nil _ = Nil
-  (<*>) fs xs = flatMap (<$> fs) xs
+  (<*>) fs xs = flatMap (<$> xs) fs
+-- `flatMap (<$> xs) fs` works because:
+-- [f g] <*> [x y]
+-- == [f x, f y, g x, g y] 
+-- == concat [ [f x, f y] , [g x, g y] ]
+-- == concat [ f <$> [x, y] , g <$> [x, y] ]
+-- == concat $ map (<$> [x, y]) [f, g]
+instance Arbitrary a =>
+  Arbitrary (List a) where
+    arbitrary = listGen3
+listGen :: Arbitrary a => Gen (List a)
+listGen = do
+  x <- arbitrary
+  frequency [(1, return Nil), 
+    (10, Cons x <$> listGen)]
+-- listGen2 (>>=) (\(xs :: List a) -> 
+--   return (Cons x xs)) :: Gen (List a)
+listGen3 :: Arbitrary a => Gen (List a)
+listGen3 = do
+  frequency [(1, return Nil), 
+    (10, listGen4)] where
+      listGen4 = do
+        x <- arbitrary
+        xs <- listGen3
+        return (Cons x xs)
 
--- (<*>)::List(a->b)->List a->
+
+instance Eq a => EqProp (List a) where
+  (=-=) = eq 
+
+-- (<*>)::List(a->b)->List a->List b
 -- flatMap::(a->List b)->List a->List b
 -- fmap::(a->b)->List a->List b
+-- c::a->List a->List a
 -------------------------------
 -- ZipList Applicative exercise
 -------------------------------
@@ -178,7 +207,11 @@ instance Applicative List where
 
 
 
--- main :: IO ()
--- main = do 
+main :: IO ()
+main = do 
   -- quickBatch $ monoid v2
+  quickBatch $ functor (undefined ::
+    List (Int, Bool, Char))
+  quickBatch $ applicative 
+    @List @Int @Bool @Char undefined
   
