@@ -272,8 +272,12 @@ check :: [Integer]
 check = seqA [(+1)] 1
 check2 :: [Integer]
 check2 = ((:) <$> (+1) <*> pure []) 1
--- check3 = ((+(1:)) <*> pure []) 1
--- check4 = (+(1:[])) 1
+check3 :: [Integer]
+check3 = ((\x->((x+1):)) <*> pure []) 1
+check4 :: [Integer]
+check4 = ((\x->((x+1):)) <*> (\x->[])) 1
+check5 :: [Integer]
+check5 = (\x -> (x+1):[]) 1
 
 test11 :: Integer
 test11 = ((+) <$> (+3) <*> (*2)) 2

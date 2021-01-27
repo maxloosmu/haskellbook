@@ -173,8 +173,11 @@ listGen = do
   x <- arbitrary
   frequency [(1, return Nil), 
     (10, Cons x <$> listGen)]
--- listGen2 (>>=) (\(xs :: List a) -> 
---   return (Cons x xs)) :: Gen (List a)
+-- listGen2 = do
+--   x <- arbitrary
+--   frequency [(1, return Nil), 
+--     (10, listGen2 >>= (\(xs :: List a) -> 
+--       return (Cons x xs)) :: Gen (List a))]
 listGen3 :: Arbitrary a => Gen (List a)
 listGen3 = do
   frequency [(1, return Nil), 

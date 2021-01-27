@@ -1,9 +1,9 @@
--- instance.cabal
+-- testing.cabal
 name: testing
 version: 0.1.0.0
 license-file: LICENSE
 author: Max
-maintainer: maxloo@smu.edu.sg
+maintainer: maxloo
 build-type: Simple
 cabal-version: >=1.10
 

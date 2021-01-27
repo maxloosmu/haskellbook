@@ -2,9 +2,10 @@
 -- {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# language GeneralizedNewtypeDeriving, 
+-- {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, 
   DeriveTraversable, StandaloneDeriving #-}
+{-# LANGUAGE ViewPatterns #-}
 
 module Testing where
 
@@ -20,10 +21,14 @@ import Test.QuickCheck
       Arbitrary(arbitrary),
       Property ) 
 import Test.QuickCheck.Checkers 
-  ( eq, quickBatch, EqProp(..) )
+  ( eq, quickBatch, EqProp(..), 
+  TestBatch, Binop, leftId, rightId,
+  isAssoc )
 import Test.QuickCheck.Classes 
   ( applicative, functor, monoid ) 
 import Test.QuickCheck.Arbitrary ()
+import Test.QuickCheck
+  (NonEmptyList (..), property)
 import Test.QuickCheck.Modifiers 
   (NonEmptyList (..))
 
@@ -111,14 +116,46 @@ instance Monoid a
     mappend = liftA2 mappend
     mconcat as = 
       foldr mappend mempty as
-mconcatP :: NonEmptyList a -> Property
-mconcatP (nonEmptyList as) = mconcat as =-= 
-  foldr mappend mempty as
-nonEmptyList :: Gen [[Int]]
-nonEmptyList = listOf1 (arbitrary :: Gen [Int])
+-- -- copying from:
+-- https://hackage.haskell.org/package/checkers-0.5.6/docs/src/Test.QuickCheck.Classes.html#monoid
+monoidP :: forall a. (Monoid a, Show a, 
+  Arbitrary a, EqProp a) =>
+  a -> TestBatch
+monoidP = const ( "monoidP"
+    , [ ("left  identity", leftId mappend (mempty :: a))
+    , ("right identity", rightId mappend (mempty :: a))
+    , ("associativity" , isAssoc (mappend :: Binop a))
+    , ("mappend = (<>)", property monoidSemigroupP)
+    , ("mconcat", property mconcatP)
+      ]
+    )
+  where
+    monoidSemigroupP :: a -> a -> Property
+    monoidSemigroupP x y = 
+      mappend x y =-= x <> y
+    -- mconcatP amended:
+    mconcatP :: (EqProp b, Monoid b) => 
+      NonEmptyList b -> Property
+    mconcatP (NonEmpty as) = mconcat as =-= 
+      foldr mappend mempty as
 
 zl :: ZipList (Sum Int)
 zl = ZipList [1,1 :: Sum Int]
+-- -- this is not necessary: 
+-- nonEmptyList :: Gen [[Int]]
+-- nonEmptyList = listOf1 
+--   (arbitrary :: Gen [Int])
+
+-- -- mconcat stack overflows here too,
+-- -- not possible to resolve this from
+-- -- mconcatP
+-- mconcatP :: (EqProp b, Monoid b) => 
+--   NonEmptyList b -> Property
+-- mconcatP (getNonEmpty -> as) = 
+--   mconcat as =-= 
+--   foldr mappend mempty as
+
+-- -- this is not necessary:
 -- -- instance Arbitrary a
 -- --   => Arbitrary (ZipList a) where
 -- --     arbitrary = ZipList <$> arbitrary
@@ -190,6 +227,10 @@ instance (Applicative f, Monoid a) =>
     mempty = Ap $ pure mempty
     Ap xs `mappend` Ap ys = 
       Ap $ liftA2 mappend xs ys
+-- Ap $ liftA2 mappend xs ys ==
+-- Ap $ mappend <$> xs <*> ys
+-- type: Ap f a, where f a is considered
+-- together because f is structure
 app :: Ap ZipList (Sum Int)
 app = Ap (ZipList [1,2 :: Sum Int])
 test :: Ap ZipList (Sum Int)
@@ -220,7 +261,8 @@ instance Arbitrary a =>
   Arbitrary (MonZipList a) where
     arbitrary = MonZipList <$> arbitrary
 instance Eq a => EqProp (MonZipList a) where
-  MonZipList (Ap (ZipList xs)) =-= MonZipList (Ap (ZipList ys)) = 
+  MonZipList (Ap (ZipList xs)) =-= 
+    MonZipList (Ap (ZipList ys)) = 
     take 3000 xs `eq` take 3000 ys
 
 
@@ -240,13 +282,17 @@ main = do
   -- quickBatch $ applicative 
   --   (undefined :: Maeb 
   --   (Int, String, Maybe Char))
-  quickBatch $ monoid zl
+  quickBatch $ monoidP zl
   -- quickCheck (mconcatP @(ZipList (Sum Int)))
   -- quickCheck (mconcatP' @(ZipList (Sum Int)))
   -- -- monoid app goes with 
   -- -- EqProp (Ap ZipList a):
   -- quickBatch $ monoid app
-  quickBatch $ monoid monapp
-  quickBatch $ monoid @(MonZipList (Sum Int)) undefined
-  quickBatch $ functor @MonZipList @Int @Bool @Char undefined
-  quickBatch $ applicative @MonZipList @String @Int @Char undefined
+  -- quickBatch $ monoid monapp
+  -- quickBatch $ monoid @(MonZipList (Sum Int)) 
+  --   undefined
+  -- quickBatch $ functor @MonZipList @Int @Bool 
+  --   @Char undefined
+  -- quickBatch $ applicative @MonZipList @String 
+  --   @Int @Char undefined
+
