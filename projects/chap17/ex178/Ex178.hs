@@ -3,6 +3,7 @@
 -- {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Ex178 where
 
@@ -168,16 +169,19 @@ instance Applicative List where
 instance Arbitrary a =>
   Arbitrary (List a) where
     arbitrary = listGen3
+-- Cons x <$> listGen works because we're
+-- lifting the Gen in listGen
 listGen :: Arbitrary a => Gen (List a)
 listGen = do
   x <- arbitrary
   frequency [(1, return Nil), 
     (10, Cons x <$> listGen)]
--- listGen2 = do
---   x <- arbitrary
---   frequency [(1, return Nil), 
---     (10, listGen2 >>= (\(xs :: List a) -> 
---       return (Cons x xs)) :: Gen (List a))]
+listGen2 :: Arbitrary a => Gen (List a)
+listGen2 = do
+  x <- arbitrary
+  frequency [(1, return Nil), 
+    (10, listGen2 >>= (\(xs :: List a) -> 
+      return (Cons x xs)) :: Gen (List a))]
 listGen3 :: Arbitrary a => Gen (List a)
 listGen3 = do
   frequency [(1, return Nil), 
