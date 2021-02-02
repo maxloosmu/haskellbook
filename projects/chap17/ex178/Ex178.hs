@@ -1,4 +1,4 @@
--- {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleContexts #-}
 -- {-# LANGUAGE UndecidableInstances #-}
 -- {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeApplications #-}
@@ -168,7 +168,7 @@ instance Applicative List where
 -- == concat $ map (<$> [x, y]) [f, g]
 instance Arbitrary a =>
   Arbitrary (List a) where
-    arbitrary = listGen3
+    arbitrary = listGen2
 -- Cons x <$> listGen works because we're
 -- lifting the Gen in listGen
 listGen :: Arbitrary a => Gen (List a)
@@ -180,8 +180,8 @@ listGen2 :: Arbitrary a => Gen (List a)
 listGen2 = do
   x <- arbitrary
   frequency [(1, return Nil), 
-    (10, listGen2 >>= (\(xs :: List a) -> 
-      return (Cons x xs)) :: Gen (List a))]
+    (10, listGen2 >>= (\xs -> 
+      return (Cons x xs)))]
 listGen3 :: Arbitrary a => Gen (List a)
 listGen3 = do
   frequency [(1, return Nil), 
@@ -191,10 +191,8 @@ listGen3 = do
         xs <- listGen3
         return (Cons x xs)
 
-
 instance Eq a => EqProp (List a) where
   (=-=) = eq 
-
 -- (<*>)::List(a->b)->List a->List b
 -- flatMap::(a->List b)->List a->List b
 -- fmap::(a->b)->List a->List b
@@ -202,7 +200,86 @@ instance Eq a => EqProp (List a) where
 -------------------------------
 -- ZipList Applicative exercise
 -------------------------------
-
+newtype ZipList' a =
+  ZipList' (List a)
+  deriving (Eq, Show)
+instance Arbitrary a => Arbitrary (ZipList' a) where
+  arbitrary = ZipList' <$> arbitrary
+instance Eq a => EqProp (ZipList' a) where
+  xs =-= ys = xs' `eq` ys'
+    where
+      xs' =
+        let (ZipList' l) = xs
+        in take1 3000 l
+      ys' =
+        let (ZipList' l) = ys
+        in take1 3000 l
+take1 :: Int -> List a -> List a
+take1 n xs
+  | n > 0 = take2 n xs
+  | otherwise = Nil
+take2 :: Int -> List a -> List a
+take2 0 _ = Nil
+take2 _ Nil = Nil
+take2 n (Cons x xs) = Cons x (take1 (n-1) xs)
+instance Functor ZipList' where
+  fmap f (ZipList' xs) = ZipList' (fmap f xs)
+repeat2 :: t -> List t
+repeat2 x = Cons x (repeat2 x)
+zip2 :: List (t -> a) -> List t -> List a
+zip2 Nil _ = Nil
+zip2 _ Nil = Nil
+zip2 (Cons f fs) (Cons x xs) = 
+  Cons (f x) $ zip2 fs xs
+instance Applicative ZipList' where
+  pure x = ZipList' (repeat2 x)
+  ZipList' Nil <*> _ = ZipList' Nil
+  _ <*> ZipList' Nil = ZipList' Nil
+  ZipList' (Cons f fs) <*> 
+    ZipList' (Cons x xs) = 
+      ZipList' $ Cons (f x) (zip2 fs xs)
+zl' :: [a] -> ZipList' a
+zl' = ZipList' . toMyList
+z :: ZipList' (Integer -> Integer)
+z = zl' [(+9), (*2), (+8)]
+z1 :: ZipList' Integer
+z1 = zl' [1..3]
+test3 :: ZipList' Integer
+test3 = z <*> z1
+-- test3 output: ZipList' 
+-- (Cons 10 (Cons 4 (Cons 11 Nil)))
+z2 :: ZipList' Integer
+z2 = pure 1
+test4 :: ZipList' Integer
+test4 = z <*> z2
+-- test4 output: ZipList' 
+-- (Cons 10 (Cons 2 (Cons 9 Nil)))
+z3 :: ZipList' Integer
+z3 = zl' [1, 2]
+test5 :: ZipList' Integer
+test5 = pure id <*> z3
+------------------------
+-- Either vs. Validation
+------------------------
+data Validation err a =
+  Failure err
+  | Success a
+  deriving (Eq, Show)
+validationToEither :: (Eq e, Eq a) => 
+  Validation e a
+  -> Either e a
+validationToEither (Failure err) = Left err
+validationToEither (Success a) = Right a
+eitherToValidation :: (Eq e, Eq a) => 
+  Either e a
+  -> Validation e a
+eitherToValidation (Left err) = Failure err
+eitherToValidation (Right a) = Success a
+test6 :: Bool
+test6 = (eitherToValidation . 
+  validationToEither) 
+  (Success 1 :: Validation err Int) 
+  == id (Success 1)
 
 
 
@@ -217,8 +294,11 @@ instance Eq a => EqProp (List a) where
 main :: IO ()
 main = do 
   -- quickBatch $ monoid v2
+  -- quickBatch $ functor (undefined ::
+  --   List (Int, Bool, Char))
+  -- quickBatch $ applicative 
+  --   @List @Int @Bool @Char undefined
   quickBatch $ functor (undefined ::
-    List (Int, Bool, Char))
-  quickBatch $ applicative 
-    @List @Int @Bool @Char undefined
-  
+    ZipList' (Int, Bool, Char))
+  quickBatch $ applicative (undefined ::
+    ZipList' (Int, Bool, Char))
