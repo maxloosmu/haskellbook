@@ -5,6 +5,11 @@ import qualified Data.Map as DM
 import Data.List (elemIndex)
 import Data.Monoid ( Sum(Sum) )
 import Control.Applicative ( liftA3 )
+-- import Text.Pretty.Simple will 
+-- display error in vs code, but
+-- won't throw error:
+import Text.Pretty.Simple as PPrint 
+  (pPrint)
 
 
 --17.5 Applicative in use
@@ -59,7 +64,7 @@ y2 :: Maybe Integer
 y2 = lookup (2::Integer) $ zip xs1 ys
 summed :: Maybe Integer
 summed = sum <$> ((,) <$> x2 <*> y2)
-
+------------------------------
 -- Exercise: Identity instance
 ------------------------------
 newtype Identity a = Identity a
@@ -82,7 +87,7 @@ xs3 = const <$> mkId xs1 <*> mkId xs'
 -- xs3 output: Identity [1,2,3]
 -- Identity is lifted, const keeps
 -- [1,2,3] and drops [9,9,9]
-
+------------------------------
 -- Exercise: Constant instance
 ------------------------------
 newtype Constant a b =
@@ -114,7 +119,7 @@ test2 = pure 1 :: Constant String Int
 -- with warning: Defaulting the following 
 -- constraints to type `Integer' (Num a0)
 -- arising from the literal `1' 
-
+--------------------
 -- Maybe Applicative
 --------------------
 validateLength :: Int
@@ -261,9 +266,10 @@ test9 = (Just (+2) <*> pure 2 :: Maybe Int)
 test10 :: Bool
 test10 = ([(+2), (*2)] <*> pure 1 :: [Int])
   == (pure ($ 1) <*> [(+2), (*2)])
-
+-------------------------------
 -- LYAH Chapter 11 Section 11.2
 -------------------------------
+-- from sequenceA code:
 seqA :: (Applicative f) => 
   [f a] -> f [a]
 seqA [] = pure []

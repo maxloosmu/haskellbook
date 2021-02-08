@@ -5,6 +5,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
+{-# OPTIONS_GHC -Wno-type-defaults #-}
 module Ex178 where
 
 import Control.Applicative
@@ -275,16 +276,54 @@ eitherToValidation :: (Eq e, Eq a) =>
   -> Validation e a
 eitherToValidation (Left err) = Failure err
 eitherToValidation (Right a) = Success a
-test6 :: Bool
-test6 = (eitherToValidation . 
+-- -- cannot test directly because cannot
+-- -- fit an err type into it
+-- test6 :: Bool
+-- test6 = (eitherToValidation . 
+--   validationToEither) 
+--   (Success 1 :: Validation err Int) 
+--   == id (Success 1)
+instance (Arbitrary e, Arbitrary a) =>
+  Arbitrary (Validation e a) where
+    arbitrary = do
+      e <- arbitrary 
+      a <- arbitrary 
+      frequency [(1, return $ Failure e), 
+        (2, return $ Success a)]
+test6 :: (Eq e, Eq a) => 
+  Validation e a -> Bool
+test6 x = (eitherToValidation . 
   validationToEither) 
-  (Success 1 :: Validation err Int) 
-  == id (Success 1)
+  x == id x
 
-
-
-
-
+data Errors =
+  DividedByZero
+  | StackOverflow
+  | MooglesChewedWires
+  deriving (Eq, Show)
+instance Functor (Validation e) where
+  fmap _ (Failure x) = Failure x
+  fmap f (Success y) = Success (f y)
+instance Monoid e => 
+  Applicative (Validation e) where
+    pure = Success
+    Failure e1 <*> Failure e2
+      = Failure (e1 <> e2)
+    Failure e <*> _ = Failure e
+    _ <*> Failure e = Failure e
+    Success f <*> Success r = Success (f r)
+success :: Validation [Errors] Int
+success = Success (+1)
+  <*> Success (1::Int)
+fail0 :: Validation [Errors] Int
+fail0 = Success (+1)
+  <*> Failure [StackOverflow::Errors]
+fail1 :: Validation [Errors] Int
+fail1 = Failure [StackOverflow::Errors]
+  <*> Success (+1)
+fail2 :: Validation [Errors] Int
+fail2 = Failure [MooglesChewedWires]
+  <*> Failure [StackOverflow::Errors]
 
 
 
@@ -298,7 +337,9 @@ main = do
   --   List (Int, Bool, Char))
   -- quickBatch $ applicative 
   --   @List @Int @Bool @Char undefined
-  quickBatch $ functor (undefined ::
-    ZipList' (Int, Bool, Char))
-  quickBatch $ applicative (undefined ::
-    ZipList' (Int, Bool, Char))
+  -- quickBatch $ functor (undefined ::
+  --   ZipList' (Int, Bool, Char))
+  -- quickBatch $ applicative (undefined ::
+  --   ZipList' (Int, Bool, Char))
+  quickCheck (test6 :: 
+    Validation String Int -> Bool)
