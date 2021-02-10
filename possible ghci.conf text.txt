@@ -1,3 +1,9 @@
+Automatic pretty printing at GHCi (see pictures).
+Just create a new ghci.conf file in your .ghc/ folder (exact location depends on OS).
+Here's my $HOME/.ghc/ghci.conf file.
+(also requires cabal install pretty-simple )
+
+
 --  instructions https://hackage.haskell.org/package/ghci-pretty
 --  pPrint from https://hackage.haskell.org/package/pretty-simple
 -- Pretty printing of it
@@ -5,4 +11,7 @@ import Text.Pretty.Simple as PPrint (pPrint)
 :set -interactive-print=Text.Pretty.Simple.pPrint
 :def cp (\_ -> return ":set -interactive-print=Text.Pretty.Simple.pPrint")
 :def ncp (\_ -> return ":set -interactive-print=print")
+
+
+stack ghci --package pretty-simple
 
