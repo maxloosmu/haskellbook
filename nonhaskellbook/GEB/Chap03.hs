@@ -18,31 +18,31 @@ rule1 :: DND Int Int -> DND Int Int
 rule1 (DND x y) = DND x (x + y)
 listAxiom :: [DND Int Int]
 listAxiom = [axiom x y | 
-  x <- [1..10], y <- [1..10]]
+  x <- [1..11], y <- [1..11]]
 listRule1 :: [DND Int Int]
 listRule1 = [rule1 x | 
   x <- listAxiom]
 -- -- this works:
--- listRule11 :: [DND Int Int]
--- listRule11 = map rule1 listRule1
--- listRule12 :: [DND Int Int]
--- listRule12 = map rule1 listRule11
--- listRule13 :: [DND Int Int]
--- listRule13 = map rule1 listRule12
--- fullList :: [DND Int Int]
--- fullList = sort (listAxiom ++ 
---   listRule1 ++ listRule11 ++
---   listRule12 ++ listRule13)
--- -- this doesn't work:
 listRule11 :: [DND Int Int]
-listRule11 
-  | length listRule11 < 10 = 
-    map rule1 (listRule1 ++ 
-    listRule11)
-  | otherwise = listRule11
+listRule11 = map rule1 listRule1
+listRule12 :: [DND Int Int]
+listRule12 = map rule1 listRule11
+listRule13 :: [DND Int Int]
+listRule13 = map rule1 listRule12
 fullList :: [DND Int Int]
 fullList = sort (listAxiom ++ 
-  listRule1 ++ listRule11)
+  listRule1 ++ listRule11 ++
+  listRule12 ++ listRule13)
+-- -- this doesn't work:
+-- listRule11 :: [DND Int Int]
+-- listRule11 
+--   | length listRule11 < 10 = 
+--     map rule1 (listRule1 ++ 
+--     listRule11)
+--   | otherwise = listRule11
+-- fullList :: [DND Int Int]
+-- fullList = sort (listAxiom ++ 
+--   listRule1 ++ listRule11)
 
 rule2 :: DND Int Int -> 
   [DF Int Int]
