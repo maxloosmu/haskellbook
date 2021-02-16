@@ -4,7 +4,18 @@ cd src/haskellbook/nonhaskellbook/Martin/graphz
 
 cd src/haskellbook/nonhaskellbook/LYAH
 
-stack ghci chap11.hs
+cd src/haskellbook/nonhaskellbook/ITMT
+
+cd src/haskellbook/nonhaskellbook/GEB
+
+stack ghci Chap03.hs
 
 :set -Wall
+
+
+
+LYAH - Learn You A Haskell
+ITMT - Introduction To Mathematical Thinking
+GEB - Gödel, Escher, Bach 
+
 

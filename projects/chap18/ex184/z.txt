@@ -1,0 +1,4 @@
+cd src/haskellbook/projects/chap18/ex184
+
+stack ghci Ex184.hs
+
