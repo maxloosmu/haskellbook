@@ -5,11 +5,11 @@ import qualified Data.Map as DM
 import Data.List (elemIndex)
 import Data.Monoid ( Sum(Sum) )
 import Control.Applicative ( liftA3 )
--- import Text.Pretty.Simple will 
+-- import Text.Pretty.Simple will
 -- display error in vs code, but
 -- won't throw error:
-import Text.Pretty.Simple as PPrint 
-  (pPrint)
+-- import Text.Pretty.Simple as PPrint
+--   (pPrint)
 
 
 --17.5 Applicative in use
@@ -31,23 +31,23 @@ m1 = fmap c $ DM.lookup 3 m
 --Exercises: Lookups
 --------------------
 added :: Maybe Integer
-added = fmap (+3) (lookup (3::Integer) $ 
+added = fmap (+3) (lookup (3::Integer) $
   zip [1, 2, 3] [4, 5, 6])
 
 y :: Maybe Integer
-y = lookup (3:: Integer) $ zip 
+y = lookup (3:: Integer) $ zip
   [1, 2, 3] [4, 5, 6]
 z :: Maybe Integer
-z = lookup (2:: Integer) $ zip 
+z = lookup (2:: Integer) $ zip
   [1, 2, 3] [4, 5, 6]
 tupled :: Maybe (Integer, Integer)
 tupled = (,) <$> y <*> z
 
 x1 :: Maybe Int
-x1 = elemIndex (3:: Integer) 
+x1 = elemIndex (3:: Integer)
   [1, 2, 3, 4, 5]
 y1 :: Maybe Int
-y1 = elemIndex (4:: Integer) 
+y1 = elemIndex (4:: Integer)
   [1, 2, 3, 4, 5]
 max' :: Int -> Int -> Int
 max' = max
@@ -98,7 +98,7 @@ instance Functor (Constant a) where
 instance Monoid a
   => Applicative (Constant a) where
   pure _ = Constant mempty
-  (Constant a) <*> (Constant b) = 
+  (Constant a) <*> (Constant b) =
     Constant (a <> b)
 type C = Constant
 f1 :: Constant (Sum Integer) b
@@ -107,7 +107,7 @@ g1 :: Constant (Sum Integer) b
 g1 = Constant (Sum 2)
 test :: Constant (Sum Integer) b
 test = f1 <*> g1
--- test output: Constant {getConstant = 
+-- test output: Constant {getConstant =
 --   Sum {getSum = 3}}
 test1 :: Constant (Sum Integer) b
 test1 = Constant undefined <*> g1
@@ -116,9 +116,9 @@ test2 :: Constant String Int
 test2 = pure 1 :: Constant String Int
 -- test2 output: Constant {getConstant = ""}
 -- if only pure 1 without ::, output is 1
--- with warning: Defaulting the following 
+-- with warning: Defaulting the following
 -- constraints to type `Integer' (Num a0)
--- arising from the literal `1' 
+-- arising from the literal `1'
 --------------------
 -- Maybe Applicative
 --------------------
@@ -151,7 +151,7 @@ mkPerson n a =
         Nothing -> Nothing
         Just a' ->
           Just $ Person n' a'
-s1 :: String 
+s1 :: String
 s1 = "old macdonald's"
 addy :: Maybe Address
 addy = mkAddress s1
@@ -161,7 +161,7 @@ person :: Maybe (Address -> Person)
 person = Person <$> b1
 test3 :: Maybe Person
 test3 = Person <$> b1 <*> addy
--- test3 output: Just (Person (Name "Babe") 
+-- test3 output: Just (Person (Name "Babe")
 --   (Address "old macdonald's"))
 -- cannot do: fmap (fmap Person b1) addy
 mkPerson1 :: String
@@ -170,7 +170,7 @@ mkPerson1 n a =
   Person <$> mkName n <*> mkAddress a
 test4 :: Maybe Person
 test4 = mkPerson1 "Babe" "old macdonald's"
--- test4 output: Just (Person (Name "Babe") 
+-- test4 output: Just (Person (Name "Babe")
 --   (Address "old macdonald's"))
 
 data Cow = Cow {
@@ -182,7 +182,7 @@ noEmpty :: String -> Maybe String
 noEmpty "" = Nothing
 noEmpty str = Just str
 noNegative :: Int -> Maybe Int
-noNegative n 
+noNegative n
   | n >= 0 = Just n
   | otherwise = Nothing
 cowFromString :: String
@@ -216,9 +216,9 @@ cow2 :: Maybe (Int -> Cow)
 cow2 = cow1 <*> noNegative 1
 cow3 :: Maybe Cow
 cow3 = cow2 <*> noNegative 2
-coww1 :: Applicative f => 
+coww1 :: Applicative f =>
   f String -> f Int -> f Int -> f Cow
--- default: coww1 :: Maybe String -> 
+-- default: coww1 :: Maybe String ->
 --   Maybe Int -> Maybe Int -> Maybe Cow
 coww1 = liftA3 Cow
 coww2 :: Maybe Int -> Maybe Int -> Maybe Cow
@@ -230,11 +230,11 @@ coww4 = coww3 (noNegative 2)
 
 -- Exercise: Fixer upper
 ------------------------
-apply :: Maybe String 
+apply :: Maybe String
 apply = const <$> Just "Hello" <*> pure "World"
-apply1 :: Maybe 
+apply1 :: Maybe
   (Integer, Integer, String, [Integer])
-apply1 = (,,,) <$> Just 90 <*> Just 10 
+apply1 = (,,,) <$> Just 90 <*> Just 10
   <*> Just "Tierness" <*> pure [1, 2, 3]
 
 -- 17.6 Applicative laws
@@ -242,21 +242,21 @@ apply1 = (,,,) <$> Just 90 <*> Just 10
 -- Identity
 -----------
 test7 :: Either String Int
-test7 = pure id <*> 
+test7 = pure id <*>
   (Right 8001::Either String Int)
 test5 :: Bool
-test5 = (fmap id [1..(5::Int)]) == 
+test5 = (fmap id [1..(5::Int)]) ==
   (pure id <*> [1..5])
 -- Composition
 --------------
 test6 :: Bool
-test6 = (pure (.) <*> [(+1)] <*> [(*2)] 
-  <*> [1, 2, 3]) == ([(+1)] <*> ([(*2)] 
+test6 = (pure (.) <*> [(+1)] <*> [(*2)]
+  <*> [1, 2, 3]) == ([(+1)] <*> ([(*2)]
   <*> [1, 2, 3::Int]))
 -- Homomorphism
 ---------------
 test8 :: Bool
-test8 = (pure (+1) <*> pure 1) == 
+test8 = (pure (+1) <*> pure 1) ==
   (pure ((+1) 1) :: Either String Int)
 -- Interchange
 --------------
@@ -270,7 +270,7 @@ test10 = ([(+2), (*2)] <*> pure 1 :: [Int])
 -- LYAH Chapter 11 Section 11.2
 -------------------------------
 -- from sequenceA code:
-seqA :: (Applicative f) => 
+seqA :: (Applicative f) =>
   [f a] -> f [a]
 seqA [] = pure []
 seqA (x:xs) = (:) <$> x <*> seqA xs

@@ -17,21 +17,21 @@ import Test.QuickCheck
       within,
       quickCheck,
       Arbitrary(arbitrary),
-      Property ) 
-import Test.QuickCheck.Checkers 
+      Property )
+import Test.QuickCheck.Checkers
   ( eq, quickBatch, EqProp(..) )
-import Test.QuickCheck.Classes 
-  ( applicative, functor, monoid ) 
+import Test.QuickCheck.Classes
+  ( applicative, functor, monoid )
 import Test.QuickCheck.Arbitrary ()
 
 -- 17.8 ZipList Monoid
 ----------------------
 -- List Applicative exercise
 ----------------------------
--- -- this applicative creates monoid 
+-- -- this applicative creates monoid
 -- -- type outputs, which is wrong
--- -- for Applicatives. trying 
--- -- Cons (f x) (fs <> xs) using 
+-- -- for Applicatives. trying
+-- -- Cons (f x) (fs <> xs) using
 -- -- Monoid fail because errorneous
 -- -- output for (f x). trying with
 -- -- Cons2 (x <> y) (xs <> ys) also
@@ -40,7 +40,7 @@ import Test.QuickCheck.Arbitrary ()
 --   pure x = Cons x Nil
 --   (<*>) _ Nil = Nil
 --   (<*>) Nil _ = Nil
---   (Cons f fs) <*> (Cons x xs) = 
+--   (Cons f fs) <*> (Cons x xs) =
 --     Cons (f x) (fs <*> xs)
 data Ziplst a =
   Nil2 | Cons2 a (Ziplst a)
@@ -48,7 +48,7 @@ data Ziplst a =
 newtype Sum1 = Sum2 Int
   deriving (Eq, Show)
 instance Semigroup Sum1 where
-  (<>) (Sum2 x) (Sum2 y) = 
+  (<>) (Sum2 x) (Sum2 y) =
     Sum2 (x + y)
 instance Monoid Sum1 where
   mempty = Sum2 0
@@ -58,7 +58,7 @@ instance Arbitrary Sum1 where
     x <- arbitrary :: Gen Int
     return $ Sum2 x
 -- Semigroup (Ziplst a) cannot
--- work because (x <> y) will 
+-- work because (x <> y) will
 -- recurse endlessly, so
 -- quickBatch $ monoid v2 hangs
 -- at left identity
@@ -66,13 +66,13 @@ instance Semigroup a =>
   Semigroup (Ziplst a) where
     (<>) _ Nil2 = Nil2
     (<>) Nil2 _ = Nil2
-    (Cons2 x xs) <> (Cons2 y ys) = 
+    (Cons2 x xs) <> (Cons2 y ys) =
       Cons2 (x <> y) (xs <> ys)
 instance Monoid a =>
   Monoid (Ziplst a) where
     mempty = Nil2
     mappend = (<>)
--- no other solution for: 
+-- no other solution for:
 -- arbitrary = arbitrary
 instance Arbitrary a =>
   Arbitrary (Ziplst a) where
@@ -83,15 +83,15 @@ instance Arbitrary a =>
 -- instance Arbitrary a =>
 --   Arbitrary (Ziplst a) where
 --     arbitrary = do
---       x <- Cons2 arbitrary 
+--       x <- Cons2 arbitrary
 --         (Cons2 arbitrary Nil2)
 --       return x
 -- -- zlistGen don't work too:
--- zlistGen :: Arbitrary a => 
+-- zlistGen :: Arbitrary a =>
 --   Gen (Ziplst a)
 -- zlistGen = do
 --   x <- arbitrary
---   frequency [(1, return Nil2), 
+--   frequency [(1, return Nil2),
 --     (10, Cons2 x zlistGen)]
 -- instance Arbitrary a =>
 --   Arbitrary (Ziplst a) where
@@ -99,9 +99,12 @@ instance Arbitrary a =>
 instance EqProp (Ziplst Sum1) where
   (=-=) = eq
 v2 :: Ziplst Sum1
-v2 = Cons2 (Sum2 1) 
+v2 = Cons2 (Sum2 1)
   (Cons2 (Sum2 2) Nil2)
 ----------------------------------
+----------------------------------
+-- List Applicative exercise -
+-- the correct version
 ----------------------------------
 data List a =
   Nil | Cons a (List a)
@@ -114,10 +117,10 @@ append :: List a -> List a -> List a
 append Nil ys = ys
 append (Cons x xs) ys =
   Cons x $ xs `append` ys
-fold :: (a -> b -> b) -> 
+fold :: (a -> b -> b) ->
   b -> List a -> b
 fold _ b Nil = b
-fold f b (Cons h t) = 
+fold f b (Cons h t) =
   f h (fold f b t)
 concat' :: List (List a) -> List a
 concat' = fold append Nil
@@ -128,9 +131,9 @@ flatMap f as = concat' $ fmap f as
 fv2 :: List Integer
 fv2 = fmap (+1) v1
 v3 :: List (List Integer)
-v3 = Cons (Cons 2 Nil) 
+v3 = Cons (Cons 2 Nil)
   (Cons (Cons 3 Nil) Nil)
--- fv3 output: Cons 1 (Cons 2 
+-- fv3 output: Cons 1 (Cons 2
 -- (Cons 1 (Cons 3 Nil)))
 fv3 :: List Integer
 fv3 = flatMap (Cons 1) v3
@@ -146,7 +149,7 @@ c = Cons
 f2 :: Num a => a -> List a
 f2 x = x `c` (9 `c` Nil)
 -- test2 output:
--- Cons 1 (Cons 9 (Cons 2 
+-- Cons 1 (Cons 9 (Cons 2
 -- (Cons 9 Nil)))
 test2 :: List Integer
 test2 = flatMap f2 xs2
@@ -154,7 +157,7 @@ test2 = flatMap f2 xs2
 -- fv1 = f1 <*> v1
 instance Functor List where
   fmap _ Nil = Nil
-  fmap f (Cons x xs) = 
+  fmap f (Cons x xs) =
     Cons (f x) (fmap f xs)
 instance Applicative List where
   pure x = Cons x Nil
@@ -163,7 +166,7 @@ instance Applicative List where
   (<*>) fs xs = flatMap (<$> xs) fs
 -- `flatMap (<$> xs) fs` works because:
 -- [f g] <*> [x y]
--- == [f x, f y, g x, g y] 
+-- == [f x, f y, g x, g y]
 -- == concat [ [f x, f y] , [g x, g y] ]
 -- == concat [ f <$> [x, y] , g <$> [x, y] ]
 -- == concat $ map (<$> [x, y]) [f, g]
@@ -175,17 +178,17 @@ instance Arbitrary a =>
 listGen :: Arbitrary a => Gen (List a)
 listGen = do
   x <- arbitrary
-  frequency [(1, return Nil), 
+  frequency [(1, return Nil),
     (10, Cons x <$> listGen)]
 listGen2 :: Arbitrary a => Gen (List a)
 listGen2 = do
   x <- arbitrary
-  frequency [(1, return Nil), 
-    (10, listGen2 >>= (\xs -> 
+  frequency [(1, return Nil),
+    (10, listGen2 >>= (\xs ->
       return (Cons x xs)))]
 listGen3 :: Arbitrary a => Gen (List a)
 listGen3 = do
-  frequency [(1, return Nil), 
+  frequency [(1, return Nil),
     (10, listGen4)] where
       listGen4 = do
         x <- arbitrary
@@ -193,7 +196,7 @@ listGen3 = do
         return (Cons x xs)
 
 instance Eq a => EqProp (List a) where
-  (=-=) = eq 
+  (=-=) = eq
 -- (<*>)::List(a->b)->List a->List b
 -- flatMap::(a->List b)->List a->List b
 -- fmap::(a->b)->List a->List b
@@ -230,14 +233,14 @@ repeat2 x = Cons x (repeat2 x)
 zip2 :: List (t -> a) -> List t -> List a
 zip2 Nil _ = Nil
 zip2 _ Nil = Nil
-zip2 (Cons f fs) (Cons x xs) = 
+zip2 (Cons f fs) (Cons x xs) =
   Cons (f x) $ zip2 fs xs
 instance Applicative ZipList' where
   pure x = ZipList' (repeat2 x)
   ZipList' Nil <*> _ = ZipList' Nil
   _ <*> ZipList' Nil = ZipList' Nil
-  ZipList' (Cons f fs) <*> 
-    ZipList' (Cons x xs) = 
+  ZipList' (Cons f fs) <*>
+    ZipList' (Cons x xs) =
       ZipList' $ Cons (f x) (zip2 fs xs)
 zl' :: [a] -> ZipList' a
 zl' = ZipList' . toMyList
@@ -247,13 +250,13 @@ z1 :: ZipList' Integer
 z1 = zl' [1..3]
 test3 :: ZipList' Integer
 test3 = z <*> z1
--- test3 output: ZipList' 
+-- test3 output: ZipList'
 -- (Cons 10 (Cons 4 (Cons 11 Nil)))
 z2 :: ZipList' Integer
 z2 = pure 1
 test4 :: ZipList' Integer
 test4 = z <*> z2
--- test4 output: ZipList' 
+-- test4 output: ZipList'
 -- (Cons 10 (Cons 2 (Cons 9 Nil)))
 z3 :: ZipList' Integer
 z3 = zl' [1, 2]
@@ -266,12 +269,12 @@ data Validation err a =
   Failure err
   | Success a
   deriving (Eq, Show)
-validationToEither :: (Eq e, Eq a) => 
+validationToEither :: (Eq e, Eq a) =>
   Validation e a
   -> Either e a
 validationToEither (Failure err) = Left err
 validationToEither (Success a) = Right a
-eitherToValidation :: (Eq e, Eq a) => 
+eitherToValidation :: (Eq e, Eq a) =>
   Either e a
   -> Validation e a
 eitherToValidation (Left err) = Failure err
@@ -279,21 +282,23 @@ eitherToValidation (Right a) = Success a
 -- -- cannot test directly because cannot
 -- -- fit an err type into it
 -- test6 :: Bool
--- test6 = (eitherToValidation . 
---   validationToEither) 
---   (Success 1 :: Validation err Int) 
+-- test6 = (eitherToValidation .
+--   validationToEither)
+--   (Success 1 :: Validation err Int)
 --   == id (Success 1)
 instance (Arbitrary e, Arbitrary a) =>
   Arbitrary (Validation e a) where
     arbitrary = do
-      e <- arbitrary 
-      a <- arbitrary 
-      frequency [(1, return $ Failure e), 
+      e <- arbitrary
+      a <- arbitrary
+      frequency [(1, return $ Failure e),
         (2, return $ Success a)]
-test6 :: (Eq e, Eq a) => 
+-- -- test6 (Success 1::Eq err=>Validation err Int)
+-- -- still throws warnings
+test6 :: (Eq e, Eq a) =>
   Validation e a -> Bool
-test6 x = (eitherToValidation . 
-  validationToEither) 
+test6 x = (eitherToValidation .
+  validationToEither)
   x == id x
 
 data Errors =
@@ -304,7 +309,7 @@ data Errors =
 instance Functor (Validation e) where
   fmap _ (Failure x) = Failure x
   fmap f (Success y) = Success (f y)
-instance Monoid e => 
+instance Monoid e =>
   Applicative (Validation e) where
     pure = Success
     Failure e1 <*> Failure e2
@@ -324,22 +329,26 @@ fail1 = Failure [StackOverflow::Errors]
 fail2 :: Validation [Errors] Int
 fail2 = Failure [MooglesChewedWires]
   <*> Failure [StackOverflow::Errors]
-
-
+fail3 :: Validation [Errors] Int
+fail3 = (Failure [StackOverflow::Errors]
+  <*> Success (+1)) <*> (Failure [MooglesChewedWires]
+  <*> Failure [StackOverflow::Errors])
+fail4 :: Validation [Errors] Int
+fail4 = fail1 <*> fail2
 
 
 
 
 main :: IO ()
-main = do 
+main = do
   -- quickBatch $ monoid v2
   -- quickBatch $ functor (undefined ::
   --   List (Int, Bool, Char))
-  -- quickBatch $ applicative 
+  -- quickBatch $ applicative
   --   @List @Int @Bool @Char undefined
   -- quickBatch $ functor (undefined ::
   --   ZipList' (Int, Bool, Char))
   -- quickBatch $ applicative (undefined ::
   --   ZipList' (Int, Bool, Char))
-  quickCheck (test6 :: 
+  quickCheck (test6 ::
     Validation String Int -> Bool)
