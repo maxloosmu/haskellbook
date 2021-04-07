@@ -323,9 +323,10 @@ success = Success (+1)
 fail0 :: Validation [Errors] Int
 fail0 = Success (+1)
   <*> Failure [StackOverflow::Errors]
-fail1 :: Validation [Errors] Int
+-- fail1 :: Validation [Errors] Int
+fail1 :: Validation [Errors] b
 fail1 = Failure [StackOverflow::Errors]
-  <*> Success (+1)
+  <*> Success (1::Int)
 fail2 :: Validation [Errors] Int
 fail2 = Failure [MooglesChewedWires]
   <*> Failure [StackOverflow::Errors]
