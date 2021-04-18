@@ -1,0 +1,10 @@
+
+
+cd src/haskellbook/nonhaskellbook/internet
+
+stack ghci testing.hs
+
+:set -Wall
+
+
+

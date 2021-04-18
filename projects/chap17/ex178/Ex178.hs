@@ -298,8 +298,7 @@ instance (Arbitrary e, Arbitrary a) =>
 test6 :: (Eq e, Eq a) =>
   Validation e a -> Bool
 test6 x = (eitherToValidation .
-  validationToEither)
-  x == id x
+  validationToEither) x == id x
 
 data Errors =
   DividedByZero
@@ -317,27 +316,43 @@ instance Monoid e =>
     Failure e <*> _ = Failure e
     _ <*> Failure e = Failure e
     Success f <*> Success r = Success (f r)
+-- [Errors] works because the e in
+-- Validation e a can be any type
 success :: Validation [Errors] Int
 success = Success (+1)
   <*> Success (1::Int)
 fail0 :: Validation [Errors] Int
 fail0 = Success (+1)
   <*> Failure [StackOverflow::Errors]
--- fail1 :: Validation [Errors] Int
-fail1 :: Validation [Errors] b
-fail1 = Failure [StackOverflow::Errors]
+-- fail1a works only with *> in fail5:
+fail1a :: Validation [Errors] Int
+fail1a = Failure [StackOverflow::Errors]
+  <*> Success (1)
+-- fail1b works with either *> or <*>
+-- in fail4:
+fail1b :: Validation [Errors] b
+fail1b = Failure [StackOverflow::Errors]
   <*> Success (1::Int)
 fail2 :: Validation [Errors] Int
 fail2 = Failure [MooglesChewedWires]
   <*> Failure [StackOverflow::Errors]
 fail3 :: Validation [Errors] Int
 fail3 = (Failure [StackOverflow::Errors]
-  <*> Success (+1)) <*> (Failure [MooglesChewedWires]
+  <*> Success (+1))
+  <*> (Failure [MooglesChewedWires]
   <*> Failure [StackOverflow::Errors])
 fail4 :: Validation [Errors] Int
-fail4 = fail1 <*> fail2
-
-
+fail4 = fail1b <*> fail2
+fail5 :: Validation [Errors] Int
+fail5 = fail1a *> fail2
+fail6 :: Validation [Errors] Int
+fail6 = fail2 *> success
+-- succ1 output: Success 2
+succ1 :: Validation [Errors] Int
+succ1 = success *> success
+-- succ2 output: Success 4
+succ2 :: Validation [Errors] Int
+succ2 = (+) <$> success <*> success
 
 
 main :: IO ()
@@ -352,4 +367,4 @@ main = do
   -- quickBatch $ applicative (undefined ::
   --   ZipList' (Int, Bool, Char))
   quickCheck (test6 ::
-    Validation String Int -> Bool)
+    Validation [String] Int -> Bool)
