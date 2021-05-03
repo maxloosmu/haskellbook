@@ -35,7 +35,7 @@ test3 :: [Integer]
 test3 = twiceWhenEven [1..5]
 printOne :: IO ()
 printOne = putStrLn "1"
--- printOne, printTwo work because 
+-- printOne, printTwo work because
 -- they're just IO actions
 printTwo :: IO ()
 printTwo = putStrLn "2"
@@ -46,20 +46,20 @@ twoActions = (printOne, printTwo)
 -- instance Show (IO ()) where
 --   show x = show x
 print2Actions :: IO ()
-print2Actions = 
+print2Actions =
   (\(a,b) -> do a; do b) twoActions
 print2Actions2 :: IO ()
-print2Actions2 = 
+print2Actions2 =
   (\(a,b) -> a >> b) twoActions
 print2Actions3 :: IO ()
-print2Actions3 = 
+print2Actions3 =
   uncurry (>>) twoActions
 print2Actions4 :: IO ()
-print2Actions4 = 
+print2Actions4 =
   (fst <> snd) twoActions
 print2Actions5 :: IO ()
-print2Actions5 = 
-  (\(a,b) -> do 
+print2Actions5 =
+  (\(a,b) -> do
     a
     b) twoActions
 separate :: IO ()
@@ -74,28 +74,28 @@ data Cow = Cow {
   , weight :: Int
   } deriving (Eq, Show)
 noEmpty :: String -> Maybe String
--- even for structure that is Nothing, 
--- >>= will lift the structure and get 
+-- even for structure that is Nothing,
+-- >>= will lift the structure and get
 -- the underlying value "ace"
 noEmpty "ace" = Nothing
 noEmpty str = Just str
 noNegative :: Int -> Maybe Int
-noNegative n 
+noNegative n
   | n >= 0 = Just n
   | otherwise = Nothing
 -- if Cow's name is Bess,
 -- it must be under 500
 weightCheck :: Cow -> Maybe Cow
-weightCheck c = 
+weightCheck c =
   if n == "ace" && w > 499
   then Nothing
   else Just c
   where w = weight c
         n = name c
--- cannot use getLine to get cow 
+-- cannot use getLine to get cow
 -- name because conflict between
 -- IO Cow and Maybe Cow
-mkSphericalCow :: String -> Int -> 
+mkSphericalCow :: String -> Int ->
   Int -> Maybe Cow
 mkSphericalCow name' age' weight' =
   noEmpty name' >>=
@@ -104,10 +104,10 @@ mkSphericalCow name' age' weight' =
     \agey ->
       noNegative weight' >>=
       \weighty ->
-        weightCheck 
+        weightCheck
         (Cow nammy agey weighty)
 test4 :: Maybe Cow
-test4 = mkSphericalCow 
+test4 = mkSphericalCow
   "ace" (1) (500)
 f :: Integer -> Maybe Integer
 f 0 = Nothing
@@ -119,12 +119,12 @@ g i =
   else Nothing
 h :: Integer -> Maybe String
 h i = Just ("10191" ++ show i)
--- Applicative Maybe need not be added, 
--- same outcome as Monad Maybe and as 
+-- Applicative Maybe need not be added,
+-- same outcome as Monad Maybe and as
 -- doSomething :: Integer -> .. :
 -- doSomething :: Applicative Maybe =>
--- Integer -> .. 
-doSomething :: Integer -> 
+-- Integer -> ..
+doSomething :: Integer ->
   Maybe (Integer, Integer, String)
 doSomething n = do
   a <- f n
@@ -145,6 +145,39 @@ doSomething1 = do
   b <- g2
   c <- h2
   pure (a, b, c)
+
+
+-- identity :t (\f x -> (>>=) x (return . f) )
+-- (\f x -> (>>=) x (return . f) )
+--   :: Monad m => (a -> b) -> m a -> m b
+-- :t (\f x -> x >>= (return . f))
+-- (\f x -> x >>= (return . f))
+--   :: Monad m => (a -> b) -> m a -> m b
+-- :t (\f x -> fmap f x)
+-- (\f x -> fmap f x)
+--   :: Monad m => (a -> b) -> m a -> m b
+
+-- attempts to resolve identity:
+-- :t (.)
+-- (.) :: (b -> c) -> (a -> b) -> a -> c
+-- :t return
+-- return :: Monad m => a -> m a
+-- :t (. return)
+-- (. return) :: Monad m => (m a -> c) -> a -> c
+-- for this below, b becomes a2, c becomes m a2:
+-- :t (return .)
+-- (return .) :: Monad m => (a1 -> a2) -> a1 -> m a2
+-- :t (\f -> (return . f))
+-- (\f -> (return . f))
+--   :: Monad m => (a1 -> a2) -> a1 -> m a2
+-- :t (\f x -> (return . f))
+-- (\f x -> (return . f))
+--   :: Monad m => (a1 -> a2) -> p -> a1 -> m a2
+-- :t (>>=)
+-- (>>=) :: Monad m => m a -> (a -> m b) -> m b
+-- :t (\f x -> (>>=) x (return . f) )
+-- (\f x -> (>>=) x (return . f) )
+--   :: Monad m => (a -> b) -> m a -> m b
 
 
 
