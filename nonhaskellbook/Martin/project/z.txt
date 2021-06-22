@@ -1,0 +1,15 @@
+
+
+
+
+cd src/haskellbook/nonhaskellbook/Martin/project
+
+stack ghci Testing.hs
+
+:set -Wall
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+
+
+
+
+cd src/haskellbook/nonhaskellbook/Martin
+
+stack ghci Queens.hs
+
+:set -Wall
+
+
+
+
+
+
