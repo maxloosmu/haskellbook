@@ -1,0 +1,18 @@
+
+
+cd src/haskellbook/nonhaskellbook/internet/serokell/typefam
+
+stack ghci Typefam.hs
+
+:set -Wall
+
+---------------------------
+
+
+
+
+
+
+
+
+

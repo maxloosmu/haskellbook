@@ -1,5 +1,7 @@
 cd src/haskellbook/nonhaskellbook
 
+cd src/haskellbook/nonhaskellbook/Martin
+
 cd src/haskellbook/nonhaskellbook/Martin/graphz
 
 cd src/haskellbook/nonhaskellbook/LYAH
@@ -16,6 +18,10 @@ stack ghci Chap03.hs
 
 LYAH - Learn You A Haskell
 ITMT - Introduction To Mathematical Thinking
-GEB - Gödel, Escher, Bach 
+GEB - Gödel, Escher, Bach
+HHPP - Haskell High Performance Programming 
+
+
+
 
 

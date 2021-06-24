@@ -28,7 +28,10 @@ test = (fmap . fmap) replaceWithP lms
 data Form = C Bool | V String
   deriving (Eq, Ord, Show)
 
+<<<<<<< HEAD
 test0 :: [Form]
+=======
+>>>>>>> 20c307661f31d5678b20f8af59e9cec134d1eaff
 test0 = map V ["a", "b"]
 
 data Rule = Rl String [String]
@@ -49,6 +52,7 @@ human
   = Pr
   [Rl "h" []]
   (Gl ["h"])
+<<<<<<< HEAD
 test1 :: Bool
 test1 = runProg human
 test2 :: Bool
@@ -58,6 +62,12 @@ test3 = all (solveProp [Rl "h" []]) ["h"]
 test4 :: Bool
 test4 = any (solveGoal [Rl "h" []]) [["h"]]
 test5 :: [Bool]
+=======
+test1 = runProg human
+test2 = solveGoal [Rl "h" []] ["h"]
+test3 = all (solveProp [Rl "h" []]) ["h"]
+test4 = any (solveGoal [Rl "h" []]) [["h"]]
+>>>>>>> 20c307661f31d5678b20f8af59e9cec134d1eaff
 test5 = map (solveProp [Rl "h" []]) []
 
 
