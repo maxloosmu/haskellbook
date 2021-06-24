@@ -1,0 +1,3 @@
+#!/bin/bash
+git rm './projects/chap14/morse/.stack-work' './projects/chap14/testing/.stack-work' './projects/chap15/semigroup/.stack-work' './projects/chap15/testing/.stack-work' './projects/chap16/testing/.stack-work' './projects/chap17/code/.stack-work' './projects/chap17/ex179/.stack-work' './projects/chap17/testing/.stack-work' './projects/chap18/ex184/.stack-work'
+
