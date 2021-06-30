@@ -8,6 +8,9 @@ stack ghci Test01.hs
 stack ghci Test02.hs
 stack ghci Test03.hs
 
+stack ghci PatternSyn.hs
+
+
 :set -Wall
 
 ----------------------

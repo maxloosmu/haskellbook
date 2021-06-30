@@ -1,0 +1,394 @@
+Program
+    { annotOfProgram = LocTypeAnnot
+        { locAnnot = RealSRng
+            ( SRng
+                { start = Pos
+                    { line = 0
+                    , col = 0
+                    }
+                , end = Pos
+                    { line = 2
+                    , col = 33
+                    }
+                }
+            )
+        , typeAnnot = OkT
+        }
+    , lexiconOfProgram = []
+    , classDeclsOfProgram =
+        [ ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 3
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 3
+                            , col = 12
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Object" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Object" } ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 4
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 4
+                            , col = 28
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Boolean" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Boolean" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 6
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 6
+                            , col = 27
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Number" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Number" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 7
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 7
+                            , col = 26
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Float" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Float" }
+                    , ClsNm { stringOfClassName = "Number" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 8
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 8
+                            , col = 28
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Integer" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Integer" }
+                    , ClsNm { stringOfClassName = "Number" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 10
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 10
+                            , col = 27
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "String" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "String" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 12
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 12
+                            , col = 26
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Class" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Class" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 0
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 0
+                            , col = 13
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Vehicle" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Vehicle" }
+                    , ClsNm { stringOfClassName = "Class" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 1
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 1
+                            , col = 25
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Car" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Car" }
+                    , ClsNm { stringOfClassName = "Vehicle" }
+                    , ClsNm { stringOfClassName = "Class" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        ]
+    , globalsOfProgram =
+        [ VarDecl
+            { annotOfVarDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 2
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 2
+                            , col = 33
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfVarDecl = "isVehicle"
+            , tpOfVarDecl = FunT
+                { annotOfTp = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 2
+                                , col = 17
+                                }
+                            , end = Pos
+                                { line = 2
+                                , col = 33
+                                }
+                            }
+                        )
+                    , typeAnnot = OkT
+                    }
+                , funTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 2
+                                    , col = 17
+                                    }
+                                , end = Pos
+                                    { line = 2
+                                    , col = 22
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                    }
+                , argTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 2
+                                    , col = 26
+                                    }
+                                , end = Pos
+                                    { line = 2
+                                    , col = 33
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                    }
+                }
+            }
+        , VarDecl
+            { annotOfVarDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 3
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 3
+                            , col = 29
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfVarDecl = "isCar"
+            , tpOfVarDecl = FunT
+                { annotOfTp = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 3
+                                , col = 13
+                                }
+                            , end = Pos
+                                { line = 3
+                                , col = 29
+                                }
+                            }
+                        )
+                    , typeAnnot = OkT
+                    }
+                , funTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 3
+                                    , col = 13
+                                    }
+                                , end = Pos
+                                    { line = 3
+                                    , col = 18
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                    }
+                , argTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 3
+                                    , col = 22
+                                    }
+                                , end = Pos
+                                    { line = 3
+                                    , col = 29
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                    }
+                }
+            }
+        ]
+    , rulesOfProgram = []
+    , assertionsOfProgram = []
+    }

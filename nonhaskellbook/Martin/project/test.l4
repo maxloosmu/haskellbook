@@ -1,0 +1,14 @@
+class Vehicle
+class Car extends Vehicle
+decl isVehicle : Class -> Boolean
+decl isCar : Class -> Boolean
+# decl maxSpeed : Vehicle -> Integer -> Boolean
+# fact <CarClassIncl>
+# for c: Class
+# isCar c --> isVehicle c
+# rule <maxSpCar>
+# for v: Vehicle, s: Integer
+# if isCar v && s = 130
+# then maxSpeed v s
+
+

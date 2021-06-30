@@ -1,0 +1,1308 @@
+Program
+    { annotOfProgram = LocTypeAnnot
+        { locAnnot = RealSRng
+            ( SRng
+                { start = Pos
+                    { line = 0
+                    , col = 0
+                    }
+                , end = Pos
+                    { line = 7
+                    , col = 23
+                    }
+                }
+            )
+        , typeAnnot = OkT
+        }
+    , lexiconOfProgram = []
+    , classDeclsOfProgram =
+        [ ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 3
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 3
+                            , col = 12
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Object" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Object" } ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 4
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 4
+                            , col = 28
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Boolean" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Boolean" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 6
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 6
+                            , col = 27
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Number" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Number" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 7
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 7
+                            , col = 26
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Float" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Float" }
+                    , ClsNm { stringOfClassName = "Number" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 8
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 8
+                            , col = 28
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Integer" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Integer" }
+                    , ClsNm { stringOfClassName = "Number" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 10
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 10
+                            , col = 27
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "String" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "String" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 12
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 12
+                            , col = 26
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Class" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Class" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 0
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 0
+                            , col = 13
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Vehicle" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Vehicle" }
+                    , ClsNm { stringOfClassName = "Class" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        , ClassDecl
+            { annotOfClassDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 1
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 1
+                            , col = 25
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfClassDecl = ClsNm { stringOfClassName = "Car" }
+            , defOfClassDecl = ClassDef
+                { supersOfClassDef =
+                    [ ClsNm { stringOfClassName = "Car" }
+                    , ClsNm { stringOfClassName = "Vehicle" }
+                    , ClsNm { stringOfClassName = "Class" }
+                    , ClsNm { stringOfClassName = "Object" }
+                    ]
+                , fieldsOfClassDef = []
+                }
+            }
+        ]
+    , globalsOfProgram =
+        [ VarDecl
+            { annotOfVarDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 2
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 2
+                            , col = 33
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfVarDecl = "isVehicle"
+            , tpOfVarDecl = FunT
+                { annotOfTp = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 2
+                                , col = 17
+                                }
+                            , end = Pos
+                                { line = 2
+                                , col = 33
+                                }
+                            }
+                        )
+                    , typeAnnot = OkT
+                    }
+                , funTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 2
+                                    , col = 17
+                                    }
+                                , end = Pos
+                                    { line = 2
+                                    , col = 22
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                    }
+                , argTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 2
+                                    , col = 26
+                                    }
+                                , end = Pos
+                                    { line = 2
+                                    , col = 33
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                    }
+                }
+            }
+        , VarDecl
+            { annotOfVarDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 3
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 3
+                            , col = 29
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfVarDecl = "isCar"
+            , tpOfVarDecl = FunT
+                { annotOfTp = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 3
+                                , col = 13
+                                }
+                            , end = Pos
+                                { line = 3
+                                , col = 29
+                                }
+                            }
+                        )
+                    , typeAnnot = OkT
+                    }
+                , funTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 3
+                                    , col = 13
+                                    }
+                                , end = Pos
+                                    { line = 3
+                                    , col = 18
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                    }
+                , argTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 3
+                                    , col = 22
+                                    }
+                                , end = Pos
+                                    { line = 3
+                                    , col = 29
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                    }
+                }
+            }
+        , VarDecl
+            { annotOfVarDecl = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 4
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 4
+                            , col = 45
+                            }
+                        }
+                    )
+                , typeAnnot = OkT
+                }
+            , nameOfVarDecl = "maxSpeed"
+            , tpOfVarDecl = FunT
+                { annotOfTp = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 4
+                                , col = 16
+                                }
+                            , end = Pos
+                                { line = 4
+                                , col = 45
+                                }
+                            }
+                        )
+                    , typeAnnot = OkT
+                    }
+                , funTp = ClassT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 4
+                                    , col = 16
+                                    }
+                                , end = Pos
+                                    { line = 4
+                                    , col = 23
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , classNameOfTp = ClsNm { stringOfClassName = "Vehicle" }
+                    }
+                , argTp = FunT
+                    { annotOfTp = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 4
+                                    , col = 27
+                                    }
+                                , end = Pos
+                                    { line = 4
+                                    , col = 45
+                                    }
+                                }
+                            )
+                        , typeAnnot = OkT
+                        }
+                    , funTp = ClassT
+                        { annotOfTp = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 4
+                                        , col = 27
+                                        }
+                                    , end = Pos
+                                        { line = 4
+                                        , col = 34
+                                        }
+                                    }
+                                )
+                            , typeAnnot = OkT
+                            }
+                        , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                        }
+                    , argTp = ClassT
+                        { annotOfTp = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 4
+                                        , col = 38
+                                        }
+                                    , end = Pos
+                                        { line = 4
+                                        , col = 45
+                                        }
+                                    }
+                                )
+                            , typeAnnot = OkT
+                            }
+                        , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                        }
+                    }
+                }
+            }
+        ]
+    , rulesOfProgram =
+        [ Rule
+            { annotOfRule = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 5
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 7
+                            , col = 23
+                            }
+                        }
+                    )
+                , typeAnnot = ClassT
+                    { annotOfTp = ()
+                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                    }
+                }
+            , nameOfRule = Just "CarClassIncl"
+            , instrOfRule = []
+            , varDeclsOfRule =
+                [ VarDecl
+                    { annotOfVarDecl = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 6
+                                    , col = 4
+                                    }
+                                , end = Pos
+                                    { line = 6
+                                    , col = 12
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                            }
+                        }
+                    , nameOfVarDecl = "c"
+                    , tpOfVarDecl = ClassT
+                        { annotOfTp = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 6
+                                        , col = 7
+                                        }
+                                    , end = Pos
+                                        { line = 6
+                                        , col = 12
+                                        }
+                                    }
+                                )
+                            , typeAnnot = KindT
+                            }
+                        , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                        }
+                    }
+                ]
+            , precondOfRule = ValE
+                { annotOfExpr = LocTypeAnnot
+                    { locAnnot = DummySRng "Empty list"
+                    , typeAnnot = ClassT
+                        { annotOfTp = ()
+                        , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                        }
+                    }
+                , valOfExprValE = BoolV True
+                }
+            , postcondOfRule = BinOpE
+                { annotOfExpr = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 7
+                                , col = 0
+                                }
+                            , end = Pos
+                                { line = 7
+                                , col = 23
+                                }
+                            }
+                        )
+                    , typeAnnot = ClassT
+                        { annotOfTp = ()
+                        , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                        }
+                    }
+                , binOpOfExprBinOpE = BBool BBimpl
+                , subE1OfExprBinOpE = AppE
+                    { annotOfExpr = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 7
+                                    , col = 0
+                                    }
+                                , end = Pos
+                                    { line = 7
+                                    , col = 7
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                            }
+                        }
+                    , funOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 7
+                                        , col = 0
+                                        }
+                                    , end = Pos
+                                        { line = 7
+                                        , col = 5
+                                        }
+                                    }
+                                )
+                            , typeAnnot = FunT
+                                { annotOfTp = ()
+                                , funTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                                    }
+                                , argTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                                    }
+                                }
+                            }
+                        , varOfExprVarE = GlobalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 7
+                                                , col = 0
+                                                }
+                                            , end = Pos
+                                                { line = 7
+                                                , col = 5
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "isCar"
+                                }
+                            }
+                        }
+                    , argOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 7
+                                        , col = 6
+                                        }
+                                    , end = Pos
+                                        { line = 7
+                                        , col = 7
+                                        }
+                                    }
+                                )
+                            , typeAnnot = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                                }
+                            }
+                        , varOfExprVarE = LocalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 7
+                                                , col = 6
+                                                }
+                                            , end = Pos
+                                                { line = 7
+                                                , col = 7
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "c"
+                                }
+                            , indexOfVar = 0
+                            }
+                        }
+                    }
+                , subE2OfExprBinOpE = AppE
+                    { annotOfExpr = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 7
+                                    , col = 12
+                                    }
+                                , end = Pos
+                                    { line = 7
+                                    , col = 23
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                            }
+                        }
+                    , funOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 7
+                                        , col = 12
+                                        }
+                                    , end = Pos
+                                        { line = 7
+                                        , col = 21
+                                        }
+                                    }
+                                )
+                            , typeAnnot = FunT
+                                { annotOfTp = ()
+                                , funTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                                    }
+                                , argTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                                    }
+                                }
+                            }
+                        , varOfExprVarE = GlobalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 7
+                                                , col = 12
+                                                }
+                                            , end = Pos
+                                                { line = 7
+                                                , col = 21
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "isVehicle"
+                                }
+                            }
+                        }
+                    , argOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 7
+                                        , col = 22
+                                        }
+                                    , end = Pos
+                                        { line = 7
+                                        , col = 23
+                                        }
+                                    }
+                                )
+                            , typeAnnot = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                                }
+                            }
+                        , varOfExprVarE = LocalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 7
+                                                , col = 22
+                                                }
+                                            , end = Pos
+                                                { line = 7
+                                                , col = 23
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "c"
+                                }
+                            , indexOfVar = 0
+                            }
+                        }
+                    }
+                }
+            }
+        , Rule
+            { annotOfRule = LocTypeAnnot
+                { locAnnot = RealSRng
+                    ( SRng
+                        { start = Pos
+                            { line = 8
+                            , col = 0
+                            }
+                        , end = Pos
+                            { line = 11
+                            , col = 17
+                            }
+                        }
+                    )
+                , typeAnnot = ClassT
+                    { annotOfTp = ()
+                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                    }
+                }
+            , nameOfRule = Just "maxSpCar"
+            , instrOfRule = []
+            , varDeclsOfRule =
+                [ VarDecl
+                    { annotOfVarDecl = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 9
+                                    , col = 4
+                                    }
+                                , end = Pos
+                                    { line = 9
+                                    , col = 14
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Vehicle" }
+                            }
+                        }
+                    , nameOfVarDecl = "v"
+                    , tpOfVarDecl = ClassT
+                        { annotOfTp = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 9
+                                        , col = 7
+                                        }
+                                    , end = Pos
+                                        { line = 9
+                                        , col = 14
+                                        }
+                                    }
+                                )
+                            , typeAnnot = KindT
+                            }
+                        , classNameOfTp = ClsNm { stringOfClassName = "Vehicle" }
+                        }
+                    }
+                , VarDecl
+                    { annotOfVarDecl = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 9
+                                    , col = 16
+                                    }
+                                , end = Pos
+                                    { line = 9
+                                    , col = 26
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                            }
+                        }
+                    , nameOfVarDecl = "s"
+                    , tpOfVarDecl = ClassT
+                        { annotOfTp = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 9
+                                        , col = 19
+                                        }
+                                    , end = Pos
+                                        { line = 9
+                                        , col = 26
+                                        }
+                                    }
+                                )
+                            , typeAnnot = KindT
+                            }
+                        , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                        }
+                    }
+                ]
+            , precondOfRule = BinOpE
+                { annotOfExpr = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 10
+                                , col = 3
+                                }
+                            , end = Pos
+                                { line = 10
+                                , col = 21
+                                }
+                            }
+                        )
+                    , typeAnnot = ClassT
+                        { annotOfTp = ()
+                        , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                        }
+                    }
+                , binOpOfExprBinOpE = BBool BBand
+                , subE1OfExprBinOpE = AppE
+                    { annotOfExpr = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 10
+                                    , col = 3
+                                    }
+                                , end = Pos
+                                    { line = 10
+                                    , col = 10
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                            }
+                        }
+                    , funOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 10
+                                        , col = 3
+                                        }
+                                    , end = Pos
+                                        { line = 10
+                                        , col = 8
+                                        }
+                                    }
+                                )
+                            , typeAnnot = FunT
+                                { annotOfTp = ()
+                                , funTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Class" }
+                                    }
+                                , argTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                                    }
+                                }
+                            }
+                        , varOfExprVarE = GlobalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 10
+                                                , col = 3
+                                                }
+                                            , end = Pos
+                                                { line = 10
+                                                , col = 8
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "isCar"
+                                }
+                            }
+                        }
+                    , argOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 10
+                                        , col = 9
+                                        }
+                                    , end = Pos
+                                        { line = 10
+                                        , col = 10
+                                        }
+                                    }
+                                )
+                            , typeAnnot = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Vehicle" }
+                                }
+                            }
+                        , varOfExprVarE = LocalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 10
+                                                , col = 9
+                                                }
+                                            , end = Pos
+                                                { line = 10
+                                                , col = 10
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "v"
+                                }
+                            , indexOfVar = 1
+                            }
+                        }
+                    }
+                , subE2OfExprBinOpE = BinOpE
+                    { annotOfExpr = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 10
+                                    , col = 14
+                                    }
+                                , end = Pos
+                                    { line = 10
+                                    , col = 21
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                            }
+                        }
+                    , binOpOfExprBinOpE = BCompar BCeq
+                    , subE1OfExprBinOpE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 10
+                                        , col = 14
+                                        }
+                                    , end = Pos
+                                        { line = 10
+                                        , col = 15
+                                        }
+                                    }
+                                )
+                            , typeAnnot = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                                }
+                            }
+                        , varOfExprVarE = LocalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 10
+                                                , col = 14
+                                                }
+                                            , end = Pos
+                                                { line = 10
+                                                , col = 15
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "s"
+                                }
+                            , indexOfVar = 0
+                            }
+                        }
+                    , subE2OfExprBinOpE = ValE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 10
+                                        , col = 18
+                                        }
+                                    , end = Pos
+                                        { line = 10
+                                        , col = 21
+                                        }
+                                    }
+                                )
+                            , typeAnnot = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                                }
+                            }
+                        , valOfExprValE = IntV 130
+                        }
+                    }
+                }
+            , postcondOfRule = AppE
+                { annotOfExpr = LocTypeAnnot
+                    { locAnnot = RealSRng
+                        ( SRng
+                            { start = Pos
+                                { line = 11
+                                , col = 5
+                                }
+                            , end = Pos
+                                { line = 11
+                                , col = 17
+                                }
+                            }
+                        )
+                    , typeAnnot = ClassT
+                        { annotOfTp = ()
+                        , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                        }
+                    }
+                , funOfExprAppE = AppE
+                    { annotOfExpr = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 11
+                                    , col = 5
+                                    }
+                                , end = Pos
+                                    { line = 11
+                                    , col = 15
+                                    }
+                                }
+                            )
+                        , typeAnnot = FunT
+                            { annotOfTp = ()
+                            , funTp = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                                }
+                            , argTp = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                                }
+                            }
+                        }
+                    , funOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 11
+                                        , col = 5
+                                        }
+                                    , end = Pos
+                                        { line = 11
+                                        , col = 13
+                                        }
+                                    }
+                                )
+                            , typeAnnot = FunT
+                                { annotOfTp = ()
+                                , funTp = ClassT
+                                    { annotOfTp = ()
+                                    , classNameOfTp = ClsNm { stringOfClassName = "Vehicle" }
+                                    }
+                                , argTp = FunT
+                                    { annotOfTp = ()
+                                    , funTp = ClassT
+                                        { annotOfTp = ()
+                                        , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                                        }
+                                    , argTp = ClassT
+                                        { annotOfTp = ()
+                                        , classNameOfTp = ClsNm { stringOfClassName = "Boolean" }
+                                        }
+                                    }
+                                }
+                            }
+                        , varOfExprVarE = GlobalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 11
+                                                , col = 5
+                                                }
+                                            , end = Pos
+                                                { line = 11
+                                                , col = 13
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "maxSpeed"
+                                }
+                            }
+                        }
+                    , argOfExprAppE = VarE
+                        { annotOfExpr = LocTypeAnnot
+                            { locAnnot = RealSRng
+                                ( SRng
+                                    { start = Pos
+                                        { line = 11
+                                        , col = 14
+                                        }
+                                    , end = Pos
+                                        { line = 11
+                                        , col = 15
+                                        }
+                                    }
+                                )
+                            , typeAnnot = ClassT
+                                { annotOfTp = ()
+                                , classNameOfTp = ClsNm { stringOfClassName = "Vehicle" }
+                                }
+                            }
+                        , varOfExprVarE = LocalVar
+                            { nameOfVar = QVarName
+                                { annotOfQVarName = LocTypeAnnot
+                                    { locAnnot = RealSRng
+                                        ( SRng
+                                            { start = Pos
+                                                { line = 11
+                                                , col = 14
+                                                }
+                                            , end = Pos
+                                                { line = 11
+                                                , col = 15
+                                                }
+                                            }
+                                        )
+                                    , typeAnnot = OkT
+                                    }
+                                , nameOfQVarName = "v"
+                                }
+                            , indexOfVar = 1
+                            }
+                        }
+                    }
+                , argOfExprAppE = VarE
+                    { annotOfExpr = LocTypeAnnot
+                        { locAnnot = RealSRng
+                            ( SRng
+                                { start = Pos
+                                    { line = 11
+                                    , col = 16
+                                    }
+                                , end = Pos
+                                    { line = 11
+                                    , col = 17
+                                    }
+                                }
+                            )
+                        , typeAnnot = ClassT
+                            { annotOfTp = ()
+                            , classNameOfTp = ClsNm { stringOfClassName = "Integer" }
+                            }
+                        }
+                    , varOfExprVarE = LocalVar
+                        { nameOfVar = QVarName
+                            { annotOfQVarName = LocTypeAnnot
+                                { locAnnot = RealSRng
+                                    ( SRng
+                                        { start = Pos
+                                            { line = 11
+                                            , col = 16
+                                            }
+                                        , end = Pos
+                                            { line = 11
+                                            , col = 17
+                                            }
+                                        }
+                                    )
+                                , typeAnnot = OkT
+                                }
+                            , nameOfQVarName = "s"
+                            }
+                        , indexOfVar = 0
+                        }
+                    }
+                }
+            }
+        ]
+    , assertionsOfProgram = []
+    }
