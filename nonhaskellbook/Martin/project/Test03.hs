@@ -6,7 +6,7 @@ class NewConstraint a where
 newtype Identity a = Identity a
   deriving (Eq, Show, Num)
 instance NewConstraint (Identity a) where
-    getTrue x = True
+  getTrue x = True
 test :: Bool
 test = getTrue (1::Identity Int)
 
