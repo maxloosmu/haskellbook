@@ -1,6 +1,10 @@
 -- https://haskell-explained.gitlab.io/blog/posts/2019/08/27/pattern-synonyms/index.html
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module PatternSyn
   (Ident2, pattern Ident2) where
@@ -77,4 +81,44 @@ pattern MyPoint :: Int -> Int -> (Int, Int)
 pattern MyPoint{m, n} = (m,n)
 test9 = (0,0) { m = 5 }
 
+-- https://stackoverflow.com/questions/68245095/haskell-pattern-synonyms-view-patterns-gadts#comment120625597_68247742
+-- -- `data NotTrue` required because otherwise
+-- -- testIsTrue cannot find data constructor
+-- -- NotTrue:
+data NotTrue = NotTrue | VeryTrue
+  deriving (Show, Read)
+-- -- no need for `Read a`, only trying to make
+-- -- `isTrue` bidirectional:
+pattern IsTrue :: (Read a, Show a) => a
+-- pattern IsTrue <- ((== "NotTrue") . show -> False)
+pattern IsTrue <- ((== "True") . show -> True)
+  where IsTrue = read "True" -- no need for this line
+testIsTrue IsTrue = putStrLn "it is true"
+testIsTrue _ = putStrLn "not true"
+main = do
+  testIsTrue NotTrue
+  testIsTrue True
+  testIsTrue 42
+  -- IsTrue True -- cannot Show, Read functions
+  -- -- IsTrue is a pattern function
+-- GHCI output for "NotTrue", False:
+-- not true
+-- it is true
+-- it is true
+-- GHCI output for "True", True:
+-- not true
+-- it is true
+-- not true
+
+data T where
+  MkT :: (Show b) => b -> T
+deriving instance Show T
+pattern ExNumPat :: () => Show b => b -> T
+pattern ExNumPat x = MkT x
+test11 = ExNumPat "True"
+-- output: MkT "True"
+-- -- these don't seem to work:
+-- testExNumPat :: (forall b. Show b => b -> T)
+-- testExNumPat (ExNumPat (1::Int)) = MkT 1
+-- test12 = testExNumPat (ExNumPat 1)
 
