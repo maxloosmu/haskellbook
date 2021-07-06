@@ -1,7 +1,4 @@
 
-
-
-
 cd src/haskellbook/nonhaskellbook/Martin/project
 
 stack ghci Test01.hs
@@ -14,7 +11,4 @@ stack ghci PatternSyn.hs
 :set -Wall
 
 ----------------------
-
-
-
 
