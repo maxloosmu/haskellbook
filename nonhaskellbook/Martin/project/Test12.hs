@@ -7,6 +7,7 @@ constrVarDecl varnm classnm =
   (FunT () (ClassT () (ClsNm classnm)) booleanT)
 test3 = constrVarDecl "isCar" "Vehicle"
 test4 = printVarDecl test3
+constrVarDecl2 :: String -> String -> String -> VarDecl ()
 constrVarDecl2 varnm classnm1 classnm2 =
   VarDecl () varnm
   (FunT () (ClassT () (ClsNm classnm1))
