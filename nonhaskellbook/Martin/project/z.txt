@@ -6,7 +6,7 @@ stack ghci Test02.hs
 stack ghci Test03.hs
 
 stack ghci PatternSyn.hs
-
+stack ghci ViewPat.hs
 
 :set -Wall
 

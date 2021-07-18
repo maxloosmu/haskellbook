@@ -1,0 +1,21 @@
+-- ex233.cabal
+name: ex233
+version: 0.1.0.0
+license-file: LICENSE
+author: Max
+build-type: Simple
+cabal-version: >=1.10
+
+library
+  exposed-modules: Ex233
+  ghc-options: -Wall -fwarn-tabs
+  build-depends: base >=4.7 && <5
+      , hspec
+      , QuickCheck
+      , checkers
+      , random
+      , mwc-random
+  hs-source-dirs: .
+  default-language: Haskell2010
+
+

@@ -16,12 +16,16 @@ test1 = constrVarDecl2 "isTaxi" "isCar" "Vehicle"
 test2 = printVarDecl test1
 
 constrFunT [] = booleanT
-constrFunT (classNm:classNms) = FunT ()
-  (ClassT () (ClsNm classNm)) (constrFunT classNms)
-constrVarDecl :: String -> String -> VarDecl ()
-constrVarDecl varNm classNmString = VarDecl () varNm
+constrFunT (classNm:classNms) =
+  FunT ()
+  (ClassT () (ClsNm classNm))
+  (constrFunT classNms)
+constrVarDecl ::
+  String -> String -> VarDecl ()
+constrVarDecl varNm classNmString =
+  VarDecl () varNm
   $ constrFunT (words classNmString)
-test3 = constrVarDecl "isTaxi" "isCar Vehicle"
+test3 = constrVarDecl "isTaxi" "Car Vehicle"
 test4 = printVarDecl test3
 
 

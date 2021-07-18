@@ -1,0 +1,4 @@
+cd src/haskellbook/projects/chap23/ex234/
+
+stack ghci Ex234.hs
+

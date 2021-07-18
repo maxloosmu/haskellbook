@@ -1,0 +1,4 @@
+cd src/haskellbook/projects/chap23/ranex/
+
+stack ghci Ranex.hs
+
