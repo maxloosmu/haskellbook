@@ -1,5 +1,10 @@
 import Control.Monad
 
+-- https://github.com/osfameron/words
+
+data Cell = Cell (Integer, Integer) Char
+            deriving (Eq, Ord, Show)
+
 -- sample coordinate grid
 coords = [ [(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(0,7)]
          , [(1,0),(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7)]
@@ -62,6 +67,8 @@ repeat8 = take 8 . repeat
 cols8 = repeat8 [0..7]
 rows8 = map repeat8 [0..7]
 zipOverGrid = zipWith zip
+zipOverGridWith f a b = (zipWith (zipWith f)) a b
+-- zipOverGridWith = zipWith . zipWith
 grid8 = zipOverGrid rows8 cols8
 
 cols = repeat [0..]
