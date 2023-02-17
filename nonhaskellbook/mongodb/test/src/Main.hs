@@ -7,6 +7,10 @@ main :: IO ()
 main = do
   let db = "test"
   pipe <- connect (host "localhost")
-  e <- access pipe master db allCollections
+  -- e <- access pipe master db allCollections
+  -- close pipe
+  -- print e
+  let runMongo action = access pipe master db action
+  docs <- runMongo $ find (select [] "myCollection")
+  Prelude.mapM_ print docs
   close pipe
-  print e

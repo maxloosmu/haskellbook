@@ -17,7 +17,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-20.0
+resolver: lts-17.10
   # url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/11.yaml
 
 # User packages to be built.
@@ -31,6 +31,7 @@ resolver: lts-20.0
 #   - wai
 packages:
 - .
+
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
@@ -42,8 +43,12 @@ packages:
 #
 extra-deps:
   - mongoDB-2.7.1.2
+  - bson-0.3.2.8
   - network-2.8.0.1@sha256:0f165dffa752d8cde30c2bde86f80609c4f1dc5eeb3182d593041f97839c5b3b,3011
-  - bytestring-0.10.12.1@sha256:82dba4c2de4fdd8b419ed28aec2c14cfe4a3f43d1d6e2263ab26962e7398048e,6254
+  - parsec-3.1.16.1
+  - Cabal-3.2.1.0@sha256:8743076ec022296f9771d962000c9ca3a0fe02e68c37b992c63e382a675f791d,27482
+  - binary-0.8.9.1
+  - text-1.2.5.0@sha256:791f0f6c97ed96113f17ab520cf0efe1a3a4f883a8c85910a5660567c8241c40,7895
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
