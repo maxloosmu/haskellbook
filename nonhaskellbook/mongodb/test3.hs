@@ -10,11 +10,20 @@ import Data.String (fromString)
 main :: IO ()
 main = do
   let db = "test"
+      collection = "mydetails"
+      doc = ["name" =: "John", "age" =: 30]
   pipe <- connect (host "localhost")
-  e <- access pipe master (fromString db) allCollections
+  eResult <- access pipe master (fromString db) $ do
+    insert collection doc
   close pipe
-  print e
+  case eResult of
+    Left failure -> print failure
+    Right _ -> putStrLn "Document inserted successfully"
+
   -- let runMongo action = access pipe master db action
   -- docs <- runMongo $ find (select [] "myCollection")
   -- Prelude.mapM_ print docs
   -- close pipe
+
+
+

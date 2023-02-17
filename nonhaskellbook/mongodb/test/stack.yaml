@@ -43,7 +43,7 @@ packages:
 #
 extra-deps:
   - mongoDB-2.7.1.2
-  - bson-0.3.2.8
+  - bson-0.4.0.0
   - network-2.8.0.1@sha256:0f165dffa752d8cde30c2bde86f80609c4f1dc5eeb3182d593041f97839c5b3b,3011
   - parsec-3.1.16.1
   - Cabal-3.2.1.0@sha256:8743076ec022296f9771d962000c9ca3a0fe02e68c37b992c63e382a675f791d,27482
