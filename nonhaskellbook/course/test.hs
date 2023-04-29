@@ -1,4 +1,4 @@
-import System.Random
+import qualified System.Random as R
 
 newtype Gen a = MkGen (R.StdGen -> a)
   deriving (Functor)
