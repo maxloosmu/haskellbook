@@ -1,5 +1,8 @@
 import qualified System.Random as R
 
+main :: IO ()
+main = runGen prng (MkGen g)
+
 newtype Gen a = MkGen (R.StdGen -> a)
   deriving (Functor)
 
